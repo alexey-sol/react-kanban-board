@@ -1,0 +1,8 @@
+import './app/style/index.scss'; // eslint-disable-line import/no-unassigned-import -- Module provides side effects
+import { AppWithProviders } from './app';
+import { getRootElement } from './utils/helpers/dom.ts';
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(getRootElement());
+
+root.render(<AppWithProviders />);
