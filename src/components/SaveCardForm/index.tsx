@@ -1,2 +1,2 @@
-export * from './AddCardForm.tsx';
-export * from './UpdateCardForm.tsx';
+export * from './AddCardForm';
+export * from './UpdateCardForm';

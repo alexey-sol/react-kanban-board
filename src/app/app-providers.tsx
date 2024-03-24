@@ -1,4 +1,6 @@
 import { store } from './store';
+import { GlobalStyle } from '@/app/style/global';
+import { theme } from '@/app/style/theme';
 import { compose } from '@reduxjs/toolkit';
 import {
   type FC,
@@ -7,6 +9,7 @@ import {
 } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 type WithProvider = (component: FC<void>) => FC<void>;
 
@@ -24,6 +27,13 @@ export const withRouter: WithProvider = (component) => () => (
   </BrowserRouter>
 );
 
+export const withTheme: WithProvider = (component) => () => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    {component()}
+  </ThemeProvider>
+);
+
 export const withChecks: WithProvider = (component) => () => (
   <StrictMode>
     {component()}
@@ -33,5 +43,6 @@ export const withChecks: WithProvider = (component) => () => (
 export const withProviders = compose<FC>(
   withStore,
   withRouter,
+  withTheme,
   withChecks,
 );

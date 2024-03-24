@@ -1,9 +1,11 @@
-.form {
+import { styled } from 'styled-components';
+
+export const FormStyled = styled.form`
   display: flex;
   column-gap: 0.5rem;
-}
+`;
 
-.input {
+export const InputStyled = styled.input`
   flex: 1;
   padding: 0.5rem;
   border-width: 0;
@@ -11,9 +13,9 @@
   font-size: 1rem;
   text-overflow: ellipsis;
   cursor: inherit;
-}
+`;
 
-.button {
+export const ButtonStyled = styled.button`
   box-sizing: border-box;
   padding: 0.5rem;
   border-width: 0;
@@ -24,4 +26,4 @@
   &:hover {
     filter: brightness(1.3);
   }
-}
+`;

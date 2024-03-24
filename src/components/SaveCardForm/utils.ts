@@ -1,4 +1,4 @@
-import * as cn from './const.ts';
+import * as cn from './const';
 
 export const isValidInputOnUpdate = (value: string) => value.length <= cn.INPUT_MAX_LENGTH;
 

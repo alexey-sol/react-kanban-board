@@ -1,7 +1,7 @@
-import { useAppDispatch } from '@/app/store/hooks.ts';
-import { dragTypes } from '@/const.ts';
-import { useColumnContext } from '@/contexts/ColumnContext.tsx';
-import { type Card } from '@/models.ts';
+import { useAppDispatch } from '@/app/store/hooks';
+import { dragTypes } from '@/const';
+import { useColumnContext } from '@/contexts/ColumnContext';
+import { type Card } from '@/models';
 import { updateCard } from '@/slice';
 import {
   useCallback,
@@ -41,7 +41,9 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
   ]);
 
   const [
-    , dragRef,
+    { isDragging },
+    dragRef,
+    dragPreview,
   ] = useDrag(
     () => ({
       collect: (monitor) => ({ isDragging: Boolean(monitor.isDragging()) }),
@@ -52,7 +54,9 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
   );
 
   return {
+    dragPreview,
     dragRef,
+    isDragging,
     onTaskChange,
     task,
   };

@@ -1,7 +1,7 @@
 import { BoardColumn } from '../BoardColumn';
-import styles from './Board.module.scss';
-import { ColumnContextProvider } from '@/contexts/ColumnContext.tsx';
-import { type TaskStatus } from '@/models.ts';
+import { BoardStyled } from './style';
+import { ColumnContextProvider } from '@/contexts/ColumnContext';
+import { type TaskStatus } from '@/models';
 import { type FC } from 'react';
 
 const COLUMN_TITLES: TaskStatus[] = [
@@ -11,12 +11,12 @@ const COLUMN_TITLES: TaskStatus[] = [
 ];
 
 export const Board: FC = () => (
-  <ul className={styles.board}>
+  <BoardStyled>
     {COLUMN_TITLES.map((title, index) => (
       // eslint-disable-next-line react/no-array-index-key -- It's a static list, so index key is fine here
       <ColumnContextProvider key={index} taskStatus={title}>
         <BoardColumn />
       </ColumnContextProvider>
     ))}
-  </ul>
+  </BoardStyled>
 );

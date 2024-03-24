@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/app/store/hooks.ts';
-import { useColumnContext } from '@/contexts/ColumnContext.tsx';
+import { useAppDispatch } from '@/app/store/hooks';
+import { useColumnContext } from '@/contexts/ColumnContext';
 import { addCard } from '@/slice';
 import {
   useCallback,

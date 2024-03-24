@@ -1,16 +1,20 @@
-import { CardDroppableWrapper } from '../CardDroppableWrapper';
 import { CardPreview } from '../CardPreview';
-import styles from './ColumnList.module.scss';
-import { useAppSelector } from '@/app/store/hooks.ts';
-import { useColumnContext } from '@/contexts/ColumnContext.tsx';
-import { selectAllCardsByStatus } from '@/slice/selectors.ts';
+import { CardPreviewDragLayer } from '../CardPreviewDragLayer';
+import {
+  ColumnListStyled,
+  StubTextStyled,
+} from './style';
+import { useAppSelector } from '@/app/store/hooks';
+import { ListItem } from '@/components/ListItem';
+import { useColumnContext } from '@/contexts/ColumnContext';
+import { selectAllCardsByStatus } from '@/slice/selectors';
 import {
   type FC,
   memo,
   useCallback,
 } from 'react';
 
-const STUB_TEXT = 'No tasks yet';
+const STUB_TEXT = 'Nothing so far';
 
 export const ColumnList: FC = memo(() => {
   const { taskStatus } = useColumnContext();
@@ -18,22 +22,23 @@ export const ColumnList: FC = memo(() => {
   const hasCards = cards.length > 0;
 
   const renderCards = useCallback(() => cards.map((card, index) => (
-    <CardDroppableWrapper index={index} key={card.id}>
+    <ListItem index={index} key={card.id}>
       <CardPreview card={card} />
-    </CardDroppableWrapper>
+      <CardPreviewDragLayer />
+    </ListItem>
   )), [
     cards,
   ]);
 
   const renderStub = useCallback(() => (
-    <CardDroppableWrapper>
-      <p>{STUB_TEXT}</p>
-    </CardDroppableWrapper>
+    <ListItem>
+      <StubTextStyled>{STUB_TEXT}</StubTextStyled>
+    </ListItem>
   ), []);
 
   return (
-    <ul className={styles.columnList}>
+    <ColumnListStyled>
       {hasCards ? renderCards() : renderStub()}
-    </ul>
+    </ColumnListStyled>
   );
 });

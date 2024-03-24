@@ -1,9 +1,13 @@
-import * as cn from './const.ts';
-import styles from './SaveCardForm.module.scss';
+import * as cn from './const';
+import {
+  ButtonStyled,
+  FormStyled,
+  InputStyled,
+} from './style';
 import {
   handleValidationError,
   isValidInputOnAdd,
-} from './utils.ts';
+} from './utils';
 import {
   type ChangeEventHandler,
   type FC,
@@ -39,18 +43,17 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <input
-        className={styles.input}
+    <FormStyled onSubmit={handleSubmit}>
+      <InputStyled
         maxLength={cn.INPUT_MAX_LENGTH}
         onChange={handleChange}
         placeholder={cn.INPUT_PLACEHOLDER}
         title={value}
         value={value}
       />
-      <button className={styles.button} type='submit'>
+      <ButtonStyled type='submit'>
         {submitButtonTitle}
-      </button>
-    </form>
+      </ButtonStyled>
+    </FormStyled>
   );
 });

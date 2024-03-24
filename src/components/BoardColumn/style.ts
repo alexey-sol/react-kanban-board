@@ -1,4 +1,6 @@
-.boardColumn {
+import { styled } from 'styled-components';
+
+export const BoardColumnStyled = styled.li`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -9,4 +11,4 @@
   padding: 1rem;
   background-color: white;
   border-radius: 0.5rem;
-}
+`;

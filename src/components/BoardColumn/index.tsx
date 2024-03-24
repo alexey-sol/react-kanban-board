@@ -1,7 +1,7 @@
 import { ColumnList } from '../ColumnList';
 import { AddCardForm } from '../SaveCardForm';
-import styles from './BoardColumn.module.scss';
-import { useBoardColumnData } from './utils.ts';
+import { BoardColumnStyled } from './style';
+import { useBoardColumnData } from './utils';
 import {
   type FC,
   memo,
@@ -18,7 +18,7 @@ export const BoardColumn: FC = memo(() => {
   } = useBoardColumnData();
 
   return (
-    <li className={styles.boardColumn}>
+    <BoardColumnStyled>
       <h3>{taskStatus}</h3>
       <ColumnList />
       <AddCardForm
@@ -27,6 +27,6 @@ export const BoardColumn: FC = memo(() => {
         submitButtonTitle={ADD_CARD_BUTTON_TITLE}
         value={task}
       />
-    </li>
+    </BoardColumnStyled>
   );
 });

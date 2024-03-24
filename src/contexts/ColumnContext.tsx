@@ -1,5 +1,5 @@
-import { type TaskStatus } from '@/models.ts';
-import { getUseContextOrThrowError } from '@/utils/helpers/context.ts';
+import { type TaskStatus } from '@/models';
+import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import {
   createContext,
   type FC,
@@ -28,4 +28,4 @@ export const ColumnContextProvider: FC<PropsWithChildren<HasTaskStatus>> = ({
   );
 };
 
-export const useColumnContext = getUseContextOrThrowError<HasTaskStatus>(ColumnContext);
+export const useColumnContext = getUseContextOrThrowError(ColumnContext);

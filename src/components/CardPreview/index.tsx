@@ -1,27 +1,37 @@
 import { UpdateCardForm } from '../SaveCardForm';
-import styles from './CardPreview.module.scss';
+import { CardPreviewStyled } from './style';
 import {
   useCardPreviewData,
   type UseCardPreviewDataProps,
-} from '@/components/CardPreview/utils.ts';
+} from '@/components/CardPreview/utils';
 import {
   type FC,
   memo,
+  useEffect,
 } from 'react';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 export const CardPreview: FC<UseCardPreviewDataProps> = memo((props) => {
   const {
+    dragPreview,
     dragRef,
+    isDragging,
     onTaskChange,
     task,
   } = useCardPreviewData(props);
 
+  useEffect(() => {
+    dragPreview(getEmptyImage());
+  }, []);
+
   return (
-    <li className={styles.cardPreview} ref={dragRef}>
+    <CardPreviewStyled
+      ref={dragRef} style={{ visibility: isDragging ? 'hidden' : 'inherit' }}
+    >
       <UpdateCardForm
         onChange={onTaskChange}
         value={task}
       />
-    </li>
+    </CardPreviewStyled>
   );
 }, (previousProps, nextProps) => previousProps.card.task === nextProps.card.task);

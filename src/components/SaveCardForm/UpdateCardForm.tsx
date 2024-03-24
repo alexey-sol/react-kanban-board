@@ -1,9 +1,12 @@
-import * as cn from './const.ts';
-import styles from './SaveCardForm.module.scss';
+import * as cn from './const';
 import {
   handleValidationError,
   isValidInputOnUpdate,
-} from './utils.ts';
+} from './utils';
+import {
+  FormStyled,
+  InputStyled,
+} from './style';
 import {
   type ChangeEventHandler,
   type FC,
@@ -30,15 +33,14 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
   };
 
   return (
-    <form className={styles.form}>
-      <input
-        className={styles.input}
+    <FormStyled>
+      <InputStyled
         maxLength={cn.INPUT_MAX_LENGTH}
         onChange={handleChange}
         placeholder={cn.INPUT_PLACEHOLDER}
         title={value}
         value={value}
       />
-    </form>
+    </FormStyled>
   );
 });
