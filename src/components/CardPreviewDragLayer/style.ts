@@ -6,20 +6,24 @@ import {
 } from 'styled-components';
 
 type CardPreviewDragLayerStyledProps = {
-  currentOffset: XYCoord,
+  $x: XYCoord['x'],
+  $y: XYCoord['y'],
 };
 
 export const CardPreviewDragLayerStyled = styled(CardPreviewStyled)<CardPreviewDragLayerStyledProps>`
-  box-sizing: border-box;
-  left: 0;
-  opacity: 0.4;
-  pointer-events: none;
   position: fixed;
   top: 0;
-  ${({ currentOffset }) => css`
-    transform: translate(${currentOffset.x}px, ${currentOffset.y}px);
-  `};
+  left: 0;
+  z-index: ${({ theme }) => theme.zIndex.modal};
+  box-sizing: border-box;
+  width: calc(${({ theme }) => theme.components.board.column.width} - 2rem);
+  opacity: 0.4;
+  pointer-events: none;
 
-  width: 468px;
-  zIndex: 1_000;
-`; // TODO
+  ${({
+    $x,
+    $y,
+  }) => css`
+    transform: translate(${$x}px, ${$y}px);
+  `};
+`;

@@ -1,7 +1,10 @@
 import { ColumnList } from '../ColumnList';
 import { AddCardForm } from '../SaveCardForm';
 import { BoardColumnStyled } from './style';
-import { useBoardColumnData } from './utils';
+import {
+  TASK_STATUS_TRANSLATIONS,
+  useBoardColumnData,
+} from './utils';
 import {
   type FC,
   memo,
@@ -19,7 +22,7 @@ export const BoardColumn: FC = memo(() => {
 
   return (
     <BoardColumnStyled>
-      <h3>{taskStatus}</h3>
+      <h3>{TASK_STATUS_TRANSLATIONS[taskStatus]}</h3>
       <ColumnList />
       <AddCardForm
         onChange={handleTaskChange}

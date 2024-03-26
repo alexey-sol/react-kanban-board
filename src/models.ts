@@ -1,4 +1,4 @@
-export type TaskStatus = 'Planned' | 'In Progress' | 'Done';
+export type TaskStatus = 'TO_DO' | 'IN_PROGRESS' | 'DONE';
 
 export type HasId = {
   id: string,

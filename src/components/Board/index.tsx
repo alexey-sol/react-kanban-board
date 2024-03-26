@@ -4,17 +4,17 @@ import { ColumnContextProvider } from '@/contexts/ColumnContext';
 import { type TaskStatus } from '@/models';
 import { type FC } from 'react';
 
-const COLUMN_TITLES: TaskStatus[] = [
-  'Planned',
-  'In Progress',
-  'Done',
+const COLUMNS: TaskStatus[] = [
+  'TO_DO',
+  'IN_PROGRESS',
+  'DONE',
 ];
 
 export const Board: FC = () => (
   <BoardStyled>
-    {COLUMN_TITLES.map((title, index) => (
+    {COLUMNS.map((status, index) => (
       // eslint-disable-next-line react/no-array-index-key -- It's a static list, so index key is fine here
-      <ColumnContextProvider key={index} taskStatus={title}>
+      <ColumnContextProvider key={index} taskStatus={status}>
         <BoardColumn />
       </ColumnContextProvider>
     ))}

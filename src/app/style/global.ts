@@ -3,11 +3,7 @@ import {
   css,
 } from 'styled-components';
 
-const globalStyle = css`
-  body {
-    background-color: LightBlue;
-  }
-`;
+const FONT_FAMILY = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", sans-serif';
 
 const resetStyle = css`
   html {
@@ -16,7 +12,7 @@ const resetStyle = css`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+    font-family: ${FONT_FAMILY};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -29,9 +25,12 @@ const resetStyle = css`
     list-style-type: none;
     padding: 0;
   }
+  
+  textarea {
+    font-family: ${FONT_FAMILY};
+  }
 `;
 
 export const GlobalStyle = createGlobalStyle`
     ${resetStyle};
-    ${globalStyle};
 `;

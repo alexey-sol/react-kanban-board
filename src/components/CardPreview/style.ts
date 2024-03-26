@@ -4,7 +4,7 @@ export const CardPreviewStyled = styled.section`
   box-sizing: border-box;
   padding: 0.5rem;
   background-color: PapayaWhip;
-  border-radius: 0.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
 
   &:hover {

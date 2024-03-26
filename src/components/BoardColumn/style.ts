@@ -5,10 +5,14 @@ export const BoardColumnStyled = styled.li`
   flex-direction: column;
   row-gap: 1rem;
   box-sizing: border-box;
-  min-width: 300px;
-  width: 500px;
+  min-width: ${({ theme }) => theme.components.board.column.minWidth};
+  width: ${({ theme }) => theme.components.board.column.width};
   height: fit-content;
   padding: 1rem;
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: initial;
+  }
 `;

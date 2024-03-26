@@ -19,9 +19,9 @@ export type BoardState = {
 
 const initialState: BoardState = {
   cards: {
-    Done: [],
-    'In Progress': [],
-    Planned: [],
+    DONE: [],
+    'IN_PROGRESS': [],
+    TO_DO: [],
   },
   mapTaskIdToStatus: {},
 };

@@ -4,7 +4,7 @@ import {
 } from 'styled-components';
 
 type ListItemStyledProps = {
-  isOver?: boolean,
+  $isOver?: boolean,
 };
 
 export const ListItemStyled = styled.li<ListItemStyledProps>`
@@ -12,12 +12,12 @@ export const ListItemStyled = styled.li<ListItemStyledProps>`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  min-height: 3.5rem;
+  min-height:  ${({ theme }) => theme.components.board.listItem.minHeight};
   border-width: 2px;
   border-style: solid;
-  border-radius: 0.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 
-  ${({ isOver = false }) => css`
-    border-color: ${isOver ? 'yellow' : 'transparent'};
+  ${({ $isOver = false }) => css`
+    border-color: ${$isOver ? 'yellow' : 'transparent'};
   `};
 `;

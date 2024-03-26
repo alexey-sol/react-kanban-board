@@ -5,13 +5,14 @@ export const FormStyled = styled.form`
   column-gap: 0.5rem;
 `;
 
-export const InputStyled = styled.input`
+export const TextAreaStyled = styled.textarea`
   flex: 1;
+  box-sizing: border-box;
   padding: 0.5rem;
   border-width: 0;
   background-color: transparent;
   font-size: 1rem;
-  text-overflow: ellipsis;
+  resize: none;
   cursor: inherit;
 `;
 

@@ -12,7 +12,7 @@ export const DroppableWrapper: FC<PropsWithChildren> = ({ children }) => {
   } = useDroppableContext();
 
   return (
-    <ListItemStyled isOver={isOver} ref={dropRef}>
+    <ListItemStyled $isOver={isOver} ref={dropRef}>
       {children}
     </ListItemStyled>
   );
