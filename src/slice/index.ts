@@ -1,29 +1,33 @@
-import { generateId } from '../utils/helpers/generators.ts';
+import { generateId } from '../utils/helpers/generators';
 import {
   type AddCardProps,
   type UpdateCardProps,
-} from './types.ts';
-import {
-  type Card,
-  type TaskStatus,
-} from '@/models.ts';
+} from './types';
+import { type Card } from '@/models';
 import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
 
 export type BoardState = {
-  cards: Record<TaskStatus, Card[]>,
-  mapTaskIdToStatus: Record<string, TaskStatus>,
+  cards: Record<string, Card[]>,
+  columns: string[],
+  mapTaskIdToStatus: Record<string, string>,
 };
 
 const initialState: BoardState = {
-  cards: {
-    DONE: [],
-    'IN_PROGRESS': [],
-    TO_DO: [],
-  },
+  cards: {},
+  columns: [
+    'To Do',
+    'Done',
+  ],
   mapTaskIdToStatus: {},
+};
+
+const initializeCardsIfNeeded = (state: BoardState, taskStatus: string) => {
+  if (!state.cards[taskStatus]) {
+    state.cards[taskStatus] = [];
+  }
 };
 
 export const boardSlice = createSlice({
@@ -37,12 +41,19 @@ export const boardSlice = createSlice({
       } = action.payload;
       const id = generateId();
 
+      initializeCardsIfNeeded(state, meta.status);
+
       state.cards[meta.status].push({
         id,
         task: data.task,
       });
 
       state.mapTaskIdToStatus[id] = meta.status;
+    },
+    addColumn: (state, action: PayloadAction<string>) => {
+      const taskStatus = action.payload;
+      state.columns.push(taskStatus);
+      initializeCardsIfNeeded(state, taskStatus);
     },
     updateCard: (state, action: PayloadAction<UpdateCardProps>) => {
       const {
@@ -60,6 +71,7 @@ export const boardSlice = createSlice({
         ...data,
       };
 
+      initializeCardsIfNeeded(state, meta.status);
       state.cards[currentStatus] = state.cards[currentStatus].filter(({ id }) => id !== meta.id);
       state.cards[meta.status].splice(resultIndex, 0, updatedCard);
       state.mapTaskIdToStatus[meta.id] = meta.status;
@@ -69,6 +81,7 @@ export const boardSlice = createSlice({
 
 export const {
   addCard,
+  addColumn,
   updateCard,
 } = boardSlice.actions;
 

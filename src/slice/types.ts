@@ -1,11 +1,10 @@
 import {
   type Card,
   type HasId,
-  type TaskStatus,
-} from '@/models.ts';
+} from '@/models';
 
 type HasTaskStatus = {
-  status: TaskStatus,
+  status: string,
 };
 
 export type AddCardProps = {

@@ -1,6 +1,5 @@
 import { useAppDispatch } from '@/app/store/hooks';
 import { dragTypes } from '@/const';
-import { type TaskStatus } from '@/models';
 import { updateCard } from '@/slice';
 import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import { isCard } from '@/utils/helpers/guards';
@@ -17,7 +16,7 @@ import {
 
 type DroppableContextProviderProps = {
   readonly index?: number,
-  readonly taskStatus: TaskStatus,
+  readonly taskStatus: string,
 };
 
 type Value = { dropRef: ConnectDropTarget, isOver: boolean, };

@@ -1,4 +1,3 @@
-import { type TaskStatus } from '@/models';
 import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import {
   createContext,
@@ -8,7 +7,7 @@ import {
 } from 'react';
 
 type HasTaskStatus = {
-  readonly taskStatus: TaskStatus,
+  readonly taskStatus: string,
 };
 
 export const ColumnContext = createContext<HasTaskStatus | null>(null);

@@ -9,3 +9,16 @@ export const BoardStyled = styled.ul`
     flex-direction: column;
   }
 `;
+
+export const FormStyled = styled.form`
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+`;
+
+export const InputStyled = styled.input`
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border-width: 0;
+  font-size: 1rem;
+`;

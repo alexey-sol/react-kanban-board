@@ -1,17 +1,10 @@
 import { useAppDispatch } from '@/app/store/hooks';
 import { useColumnContext } from '@/contexts/ColumnContext';
-import { type TaskStatus } from '@/models';
 import { addCard } from '@/slice';
 import {
   useCallback,
   useState,
 } from 'react';
-
-export const TASK_STATUS_TRANSLATIONS: Record<TaskStatus, string> = {
-  DONE: 'Done',
-  IN_PROGRESS: 'In Progress',
-  TO_DO: 'Planned',
-};
 
 const DEFAULT_TASK = '';
 
