@@ -3,5 +3,6 @@ export type HasId = {
 };
 
 export type Card = HasId & {
-  task: string,
+  columnId: string,
+  message: string,
 };

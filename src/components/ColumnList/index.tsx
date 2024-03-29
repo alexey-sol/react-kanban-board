@@ -7,7 +7,7 @@ import {
 import { useAppSelector } from '@/app/store/hooks';
 import { ListItem } from '@/components/ListItem';
 import { useColumnContext } from '@/contexts/ColumnContext';
-import { selectAllCardsByStatus } from '@/slice/selectors';
+import { selectAllCardsByColumnId } from '@/slice/selectors';
 import {
   type FC,
   memo,
@@ -17,8 +17,8 @@ import {
 const STUB_TEXT = 'Nothing so far';
 
 export const ColumnList: FC = memo(() => {
-  const { taskStatus } = useColumnContext();
-  const cards = useAppSelector((state) => selectAllCardsByStatus(state, taskStatus));
+  const { column } = useColumnContext();
+  const cards = useAppSelector((state) => selectAllCardsByColumnId(state, column.id));
   const hasCards = cards.length > 0;
 
   const renderCards = useCallback(() => cards.map((card, index) => (

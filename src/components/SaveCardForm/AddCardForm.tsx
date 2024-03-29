@@ -6,10 +6,10 @@ import {
 } from './style';
 import {
   autoGrowHeight,
-  handleValidationError,
-  isValidInputOnAdd,
   resetHeight,
 } from './utils';
+import { logError } from '@/utils/log';
+import { isValidInputOnAdd } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   type FC,
@@ -46,7 +46,7 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
         resetHeight(textAreaRef.current);
       }
     } else {
-      handleValidationError(cn.INVALID_ADD_TASK_MESSAGE);
+      logError(cn.INVALID_ADD_MESSAGE);
     }
   };
 

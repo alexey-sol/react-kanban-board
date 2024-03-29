@@ -1,9 +1,18 @@
+import { type BoardState } from './types';
 import { type RootState } from '@/app/store';
 import { type Card } from '@/models';
+import { createSelector } from '@reduxjs/toolkit';
 
 const DEFAULT_CARDS: Card[] = [];
-const DEFAULT_COLUMNS: string[] = [];
 
-export const selectAllCardsByStatus = ({ board }: RootState, status: string): Card[] => board.cards[status] ?? DEFAULT_CARDS;
+export const selectAllCardsByColumnId = ({ board }: RootState, columnId: string): Card[] => board.mapColumnIdToCards[columnId] ?? DEFAULT_CARDS;
 
-export const selectAllColumns = ({ board }: RootState): string[] => board.columns ?? DEFAULT_COLUMNS;
+const selectMapColumnIdToTitle = ({ board }: RootState): BoardState['mapColumnIdToTitle'] => board.mapColumnIdToTitle;
+
+export const selectAllColumns = createSelector(selectMapColumnIdToTitle, (mapColumnIdToTitle) => Object.entries<string>(mapColumnIdToTitle).map(([
+  id,
+  title,
+]) => ({
+  id,
+  title,
+})));

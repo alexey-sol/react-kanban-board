@@ -1,32 +1,21 @@
 import { generateId } from '../utils/helpers/generators';
+import { initialState } from './const';
 import {
-  type AddCardProps,
-  type UpdateCardProps,
+  type AddCardPayload,
+  type AddColumnPayload,
+  type BoardState,
+  type UpdateCardPayload,
+  type UpdateColumnPayload,
 } from './types';
-import { type Card } from '@/models';
+import { logError } from '@/utils/log';
 import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
 
-export type BoardState = {
-  cards: Record<string, Card[]>,
-  columns: string[],
-  mapTaskIdToStatus: Record<string, string>,
-};
-
-const initialState: BoardState = {
-  cards: {},
-  columns: [
-    'To Do',
-    'Done',
-  ],
-  mapTaskIdToStatus: {},
-};
-
-const initializeCardsIfNeeded = (state: BoardState, taskStatus: string) => {
-  if (!state.cards[taskStatus]) {
-    state.cards[taskStatus] = [];
+const initializeCardsIfNeeded = (state: BoardState, columnId: string) => {
+  if (!state.mapColumnIdToCards[columnId]) {
+    state.mapColumnIdToCards[columnId] = [];
   }
 };
 
@@ -34,36 +23,37 @@ export const boardSlice = createSlice({
   initialState,
   name: 'board',
   reducers: {
-    addCard: (state, action: PayloadAction<AddCardProps>) => {
+    addCard: (state, action: PayloadAction<AddCardPayload>) => {
       const {
         data,
         meta,
       } = action.payload;
       const id = generateId();
 
-      initializeCardsIfNeeded(state, meta.status);
+      initializeCardsIfNeeded(state, meta.columnId);
 
-      state.cards[meta.status].push({
+      state.mapColumnIdToCards[meta.columnId].push({
+        columnId: meta.columnId,
         id,
-        task: data.task,
+        message: data.message,
       });
 
-      state.mapTaskIdToStatus[id] = meta.status;
+      state.mapCardIdToColumnId[id] = meta.columnId;
     },
-    addColumn: (state, action: PayloadAction<string>) => {
-      const taskStatus = action.payload;
-      state.columns.push(taskStatus);
-      initializeCardsIfNeeded(state, taskStatus);
+    addColumn: (state, { payload }: PayloadAction<AddColumnPayload>) => {
+      const columnId = generateId();
+      state.mapColumnIdToTitle[columnId] = payload.title;
+      initializeCardsIfNeeded(state, columnId);
     },
-    updateCard: (state, action: PayloadAction<UpdateCardProps>) => {
+    updateCard: (state, action: PayloadAction<UpdateCardPayload>) => {
       const {
         data,
         meta,
       } = action.payload;
 
-      const currentStatus = state.mapTaskIdToStatus[meta.id];
-      const currentIndex = state.cards[currentStatus].findIndex(({ id }) => id === meta.id);
-      const currentData = state.cards[currentStatus][currentIndex] ?? {};
+      const columnId = state.mapCardIdToColumnId[meta.id];
+      const currentIndex = state.mapColumnIdToCards[columnId].findIndex(({ id }) => id === meta.id);
+      const currentData = state.mapColumnIdToCards[columnId][currentIndex] ?? {};
       const resultIndex = meta.index ?? currentIndex;
 
       const updatedCard = {
@@ -71,10 +61,25 @@ export const boardSlice = createSlice({
         ...data,
       };
 
-      initializeCardsIfNeeded(state, meta.status);
-      state.cards[currentStatus] = state.cards[currentStatus].filter(({ id }) => id !== meta.id);
-      state.cards[meta.status].splice(resultIndex, 0, updatedCard);
-      state.mapTaskIdToStatus[meta.id] = meta.status;
+      initializeCardsIfNeeded(state, meta.columnId);
+      state.mapColumnIdToCards[columnId] = state.mapColumnIdToCards[columnId].filter(({ id }) => id !== meta.id);
+      state.mapColumnIdToCards[meta.columnId].splice(resultIndex, 0, updatedCard);
+      state.mapCardIdToColumnId[meta.id] = meta.columnId;
+    },
+    updateColumn: (state, action: PayloadAction<UpdateColumnPayload>) => {
+      const {
+        id,
+        title,
+      } = action.payload;
+
+      const hasColumn = id in state.mapColumnIdToTitle;
+
+      if (!hasColumn) {
+        logError(`No column with id = ${id} found in board slice when updateColumn`);
+        return;
+      }
+
+      state.mapColumnIdToTitle[id] = title;
     },
   },
 });
@@ -83,6 +88,7 @@ export const {
   addCard,
   addColumn,
   updateCard,
+  updateColumn,
 } = boardSlice.actions;
 
 export const boardReducer = boardSlice.reducer;

@@ -5,18 +5,18 @@ import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import { isCard } from '@/utils/helpers/guards';
 import {
   createContext,
-  useMemo,
   type FC,
   type PropsWithChildren,
+  useMemo,
 } from 'react';
 import {
-  useDrop,
   type ConnectDropTarget,
+  useDrop,
 } from 'react-dnd';
 
 type DroppableContextProviderProps = {
+  readonly columnId: string,
   readonly index?: number,
-  readonly taskStatus: string,
 };
 
 type Value = { dropRef: ConnectDropTarget, isOver: boolean, };
@@ -25,16 +25,16 @@ export const DroppableContext = createContext<Value | null>(null);
 
 export const DroppableContextProvider: FC<PropsWithChildren<DroppableContextProviderProps>> = ({
   children,
+  columnId,
   index,
-  taskStatus,
 }) => {
   const dispatch = useAppDispatch();
 
   const onUpdateCard = (cardId: string) => dispatch(updateCard({
     meta: {
+      columnId,
       id: cardId,
       index,
-      status: taskStatus,
     },
   }));
 

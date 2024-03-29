@@ -3,11 +3,9 @@ import {
   FormStyled,
   TextAreaStyled,
 } from './style';
-import {
-  autoGrowHeight,
-  handleValidationError,
-  isValidInputOnUpdate,
-} from './utils';
+import { autoGrowHeight } from './utils';
+import { logError } from '@/utils/log';
+import { isValidInputOnUpdate } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   type FC,
@@ -40,7 +38,7 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
       autoGrowHeight(target);
       onChange(newValue);
     } else {
-      handleValidationError(cn.INVALID_UPDATE_TASK_MESSAGE);
+      logError(cn.INVALID_UPDATE_MESSAGE);
     }
   };
 

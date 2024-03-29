@@ -14,30 +14,29 @@ export type UseCardPreviewDataProps = {
 };
 
 export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
-  const { taskStatus } = useColumnContext();
+  const { column } = useColumnContext();
 
   const [
-    task,
-    setTask,
-  ] = useState(card.task);
+    message,
+    setMessage,
+  ] = useState(card.message);
 
   const dispatch = useAppDispatch();
 
-  const onTaskChange = useCallback((value: string) => {
-    setTask(value);
+  const onMessageChange = useCallback((value: string) => {
+    setMessage(value);
 
     dispatch(updateCard({
-      data: { task: value },
+      data: { message: value },
       meta: {
+        columnId: column.id,
         id: card.id,
-        status: taskStatus,
       },
     }));
   }, [
     card.id,
+    column.id,
     dispatch,
-    task,
-    taskStatus,
   ]);
 
   const [
@@ -57,7 +56,7 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
     dragPreview,
     dragRef,
     isDragging,
-    onTaskChange,
-    task,
+    message,
+    onMessageChange,
   };
 };

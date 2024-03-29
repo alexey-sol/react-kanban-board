@@ -1,4 +1,4 @@
-import { ContextOutsideProviderError } from '../errors.ts';
+import { ContextOutsideProviderError } from '../errors';
 import {
   type Context,
   useContext,

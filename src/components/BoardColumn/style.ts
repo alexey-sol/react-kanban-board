@@ -16,3 +16,11 @@ export const BoardColumnStyled = styled.li`
     width: initial;
   }
 `;
+
+export const InputStyled = styled.input`
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border-width: 0;
+  background-color: transparent;
+  font-size: 1.25rem;
+`;

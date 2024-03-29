@@ -4,6 +4,8 @@ import {
 } from './style';
 import { useAppDispatch } from '@/app/store/hooks';
 import { addColumn } from '@/slice';
+import { logError } from '@/utils/log';
+import { isValidInputOnAdd } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   type FC,
@@ -11,27 +13,29 @@ import {
   useState,
 } from 'react';
 
+export const INVALID_ADD_COLUMN_TITLE = 'Column title must not be empty or too long';
+
 export const AddColumnForm: FC = () => {
   const dispatch = useAppDispatch();
 
   const [
-    column,
-    setColumn,
+    title,
+    setTitle,
   ] = useState('');
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (column.trim().length === 0) { // TODO refactor
-      console.log('not valid value');
+    if (!isValidInputOnAdd(title)) {
+      logError(INVALID_ADD_COLUMN_TITLE);
       return;
     }
 
-    dispatch(addColumn(column));
+    dispatch(addColumn({ title }));
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    setColumn(target.value);
+    setTitle(target.value);
   };
 
   return (

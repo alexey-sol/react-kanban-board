@@ -3,18 +3,33 @@ import {
   type HasId,
 } from '@/models';
 
-type HasTaskStatus = {
-  status: string,
+export type BoardState = {
+  mapCardIdToColumnId: Record<string, string>,
+  mapColumnIdToCards: Record<string, Card[]>,
+  mapColumnIdToTitle: Record<string, string>,
 };
 
-export type AddCardProps = {
-  data: Pick<Card, 'task'>,
-  meta: HasTaskStatus,
+export type HasColumnId = {
+  columnId: string,
 };
 
-export type UpdateCardProps = {
-  data?: Partial<Pick<Card, 'task'>>,
-  meta: HasId & HasTaskStatus & {
+export type AddCardPayload = {
+  data: Pick<Card, 'message'>,
+  meta: HasColumnId,
+};
+
+export type AddColumnPayload = {
+  title: string,
+};
+
+export type UpdateCardPayload = {
+  data?: Partial<Pick<Card, 'message'>>,
+  meta: HasId & HasColumnId & {
     index?: number,
   },
+};
+
+export type UpdateColumnPayload = {
+  id: string,
+  title: string,
 };

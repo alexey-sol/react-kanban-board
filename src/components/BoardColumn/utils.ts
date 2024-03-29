@@ -1,49 +1,86 @@
 import { useAppDispatch } from '@/app/store/hooks';
 import { useColumnContext } from '@/contexts/ColumnContext';
-import { addCard } from '@/slice';
 import {
+  addCard,
+  updateColumn,
+} from '@/slice';
+import { logError } from '@/utils/log';
+import { isValidInputOnUpdate } from '@/utils/validators';
+import {
+  type ChangeEventHandler,
   useCallback,
   useState,
 } from 'react';
 
-const DEFAULT_TASK = '';
+const DEFAULT_MESSAGE = '';
+const INVALID_UPDATE_COLUMN_TITLE = 'Column title must not be too long';
 
 export const useBoardColumnData = () => {
-  const { taskStatus } = useColumnContext();
+  const { column } = useColumnContext();
 
   const [
-    task,
-    setTask,
-  ] = useState(DEFAULT_TASK);
+    message,
+    setMessage,
+  ] = useState(DEFAULT_MESSAGE);
 
   const dispatch = useAppDispatch();
 
   const onAddCard = useCallback(() => {
     dispatch(addCard({
-      data: { task },
-      meta: { status: taskStatus },
+      data: { message },
+      meta: { columnId: column.id },
     }));
   }, [
+    column.id,
     dispatch,
-    task,
-    taskStatus,
+    message,
   ]);
 
-  const handleTaskChange = useCallback((value: string) => {
-    setTask(value);
+  const onUpdateColumn = useCallback((title: string) => {
+    dispatch(updateColumn({
+      id: column.id,
+      title,
+    }));
+  }, [
+    column.id,
+    dispatch,
+  ]);
+
+  const handleCardMessageChange = useCallback((value: string) => {
+    setMessage(value);
   }, []);
 
-  const handleSubmit = useCallback(() => {
+  const handleCardMessageSubmit = useCallback(() => {
     onAddCard();
-    setTask(DEFAULT_TASK);
+    setMessage(DEFAULT_MESSAGE);
   }, [
     onAddCard,
   ]);
 
+  const [
+    title,
+    setTitle,
+  ] = useState(column.title);
+
+  const handleColumnTitleBlur = () => {
+    onUpdateColumn(title);
+  };
+
+  const handleColumnTitleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    if (!isValidInputOnUpdate(target.value)) {
+      logError(INVALID_UPDATE_COLUMN_TITLE);
+      return;
+    }
+
+    setTitle(target.value);
+  };
+
   return {
-    handleSubmit,
-    handleTaskChange,
-    task,
-    taskStatus,
+    cardMessage: message,
+    columnTitle: title,
+    handleCardMessageChange,
+    handleCardMessageSubmit,
+    handleColumnTitleBlur,
+    handleColumnTitleChange,
   };
 };

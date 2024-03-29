@@ -16,22 +16,20 @@ export const CardPreview: FC<UseCardPreviewDataProps> = memo((props) => {
     dragPreview,
     dragRef,
     isDragging,
-    onTaskChange,
-    task,
+    message,
+    onMessageChange,
   } = useCardPreviewData(props);
 
   useEffect(() => {
     dragPreview(getEmptyImage());
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <CardPreviewStyled
-      ref={dragRef} style={{ visibility: isDragging ? 'hidden' : 'inherit' }}
-    >
+    <CardPreviewStyled $isHidden={isDragging} ref={dragRef}>
       <UpdateCardForm
-        onChange={onTaskChange}
-        value={task}
+        onChange={onMessageChange}
+        value={message}
       />
     </CardPreviewStyled>
   );
-}, (previousProps, nextProps) => previousProps.card.task === nextProps.card.task);
+}, (previousProps, nextProps) => previousProps.card.message === nextProps.card.message);

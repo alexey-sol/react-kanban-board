@@ -11,9 +11,8 @@ export const Board: FC = () => {
 
   return (
     <BoardStyled>
-      {columns.map((status, index) => (
-        // eslint-disable-next-line react/no-array-index-key -- It's a static list, so index key is fine here
-        <ColumnContextProvider key={index} taskStatus={status}>
+      {columns.map((column) => (
+        <ColumnContextProvider column={column} key={column.id}>
           <BoardColumn />
         </ColumnContextProvider>
       ))}

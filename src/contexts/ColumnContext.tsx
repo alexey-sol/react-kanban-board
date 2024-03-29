@@ -1,3 +1,4 @@
+import { type BoardState } from '@/slice/types';
 import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import {
   createContext,
@@ -6,18 +7,18 @@ import {
   useMemo,
 } from 'react';
 
-type HasTaskStatus = {
-  readonly taskStatus: string,
+type HasColumn = {
+  readonly column: BoardState['mapColumnIdToTitle'],
 };
 
-export const ColumnContext = createContext<HasTaskStatus | null>(null);
+export const ColumnContext = createContext<HasColumn | null>(null);
 
-export const ColumnContextProvider: FC<PropsWithChildren<HasTaskStatus>> = ({
+export const ColumnContextProvider: FC<PropsWithChildren<HasColumn>> = ({
   children,
-  taskStatus,
+  column,
 }) => {
-  const value = useMemo<HasTaskStatus>(() => ({ taskStatus }), [
-    taskStatus,
+  const value = useMemo<HasColumn>(() => ({ column }), [
+    column,
   ]);
 
   return (

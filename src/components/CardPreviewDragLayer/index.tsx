@@ -24,7 +24,7 @@ export const CardPreviewDragLayer: FC = () => {
 
   return (
     <CardPreviewDragLayerStyled $x={currentOffset.x} $y={currentOffset.y}>
-      <p>{item.task}</p>
+      <p>{item.message}</p>
     </CardPreviewDragLayerStyled>
   );
 };

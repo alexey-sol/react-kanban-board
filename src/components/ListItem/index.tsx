@@ -14,10 +14,10 @@ export const ListItem: FC<PropsWithChildren<ListItemProps>> = ({
   children,
   index,
 }) => {
-  const { taskStatus } = useColumnContext();
+  const { column } = useColumnContext();
 
   return (
-    <DroppableContextProvider index={index} taskStatus={taskStatus}>
+    <DroppableContextProvider columnId={column.id} index={index}>
       <DroppableWrapper>
         {children}
       </DroppableWrapper>

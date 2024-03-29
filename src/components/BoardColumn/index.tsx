@@ -1,6 +1,9 @@
 import { ColumnList } from '../ColumnList';
 import { AddCardForm } from '../SaveCardForm';
-import { BoardColumnStyled } from './style';
+import {
+  BoardColumnStyled,
+  InputStyled,
+} from './style';
 import { useBoardColumnData } from './utils';
 import {
   type FC,
@@ -8,24 +11,34 @@ import {
 } from 'react';
 
 const ADD_CARD_BUTTON_TITLE = '+ Add';
+const COLUMN_TITLE_MAX_LENGTH = 255;
 
 export const BoardColumn: FC = memo(() => {
   const {
-    handleSubmit,
-    handleTaskChange,
-    task,
-    taskStatus,
+    cardMessage,
+    columnTitle,
+    handleCardMessageChange,
+    handleCardMessageSubmit,
+    handleColumnTitleBlur,
+    handleColumnTitleChange,
   } = useBoardColumnData();
 
   return (
     <BoardColumnStyled>
-      <h3>{taskStatus}</h3>
+      <h3>
+        <InputStyled
+          maxLength={COLUMN_TITLE_MAX_LENGTH}
+          onBlur={handleColumnTitleBlur}
+          onChange={handleColumnTitleChange}
+          value={columnTitle}
+        />
+      </h3>
       <ColumnList />
       <AddCardForm
-        onChange={handleTaskChange}
-        onSubmit={handleSubmit}
+        onChange={handleCardMessageChange}
+        onSubmit={handleCardMessageSubmit}
         submitButtonTitle={ADD_CARD_BUTTON_TITLE}
-        value={task}
+        value={cardMessage}
       />
     </BoardColumnStyled>
   );
