@@ -5,7 +5,7 @@ import {
 import { useAppDispatch } from '@/app/store/hooks';
 import { addColumn } from '@/slice';
 import { logError } from '@/utils/log';
-import { isValidInputOnAdd } from '@/utils/validators';
+import { assertIsValidInput } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   type FC,
@@ -13,7 +13,7 @@ import {
   useState,
 } from 'react';
 
-export const INVALID_ADD_COLUMN_TITLE = 'Column title must not be empty or too long';
+const DEFAULT_TITLE = '';
 
 export const AddColumnForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,17 +21,20 @@ export const AddColumnForm: FC = () => {
   const [
     title,
     setTitle,
-  ] = useState('');
+  ] = useState(DEFAULT_TITLE);
+
+  const resetTitle = () => setTitle(DEFAULT_TITLE);
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (!isValidInputOnAdd(title)) {
-      logError(INVALID_ADD_COLUMN_TITLE);
-      return;
+    try {
+      assertIsValidInput(title);
+      dispatch(addColumn({ title }));
+      resetTitle();
+    } catch (error) {
+      logError(error);
     }
-
-    dispatch(addColumn({ title }));
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -40,7 +43,7 @@ export const AddColumnForm: FC = () => {
 
   return (
     <FormStyled onSubmit={handleSubmit}>
-      <InputStyled onChange={handleChange} />
+      <InputStyled onChange={handleChange} value={title} />
       <button type='submit'>Add another list</button>
     </FormStyled>
   );

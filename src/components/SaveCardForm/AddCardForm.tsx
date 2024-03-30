@@ -1,6 +1,5 @@
 import * as cn from './const';
 import {
-  ButtonStyled,
   FormStyled,
   TextAreaStyled,
 } from './style';
@@ -8,8 +7,8 @@ import {
   autoGrowHeight,
   resetHeight,
 } from './utils';
-import { logError } from '@/utils/log';
-import { isValidInputOnAdd } from '@/utils/validators';
+import { Button } from '@/components/Button';
+import { validation } from '@/const';
 import {
   type ChangeEventHandler,
   type FC,
@@ -39,14 +38,10 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
       event.preventDefault();
     }
 
-    if (isValidInputOnAdd(value)) {
-      onSubmit();
+    onSubmit();
 
-      if (textAreaRef.current) {
-        resetHeight(textAreaRef.current);
-      }
-    } else {
-      logError(cn.INVALID_ADD_MESSAGE);
+    if (textAreaRef.current) {
+      resetHeight(textAreaRef.current);
     }
   };
 
@@ -76,7 +71,7 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
   return (
     <FormStyled onSubmit={handleSubmit}>
       <TextAreaStyled
-        maxLength={cn.INPUT_MAX_LENGTH}
+        maxLength={validation.INPUT_MAX_LENGTH}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder={cn.INPUT_PLACEHOLDER}
@@ -85,9 +80,9 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
         title={cn.TEXTAREA_HINT}
         value={value}
       />
-      <ButtonStyled type='submit'>
+      <Button type='submit'>
         {submitButtonTitle}
-      </ButtonStyled>
+      </Button>
     </FormStyled>
   );
 });

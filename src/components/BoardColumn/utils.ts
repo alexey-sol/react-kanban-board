@@ -2,38 +2,45 @@ import { useAppDispatch } from '@/app/store/hooks';
 import { useColumnContext } from '@/contexts/ColumnContext';
 import {
   addCard,
+  deleteColumn,
   updateColumn,
 } from '@/slice';
 import { logError } from '@/utils/log';
-import { isValidInputOnUpdate } from '@/utils/validators';
+import { assertIsValidInput } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   useCallback,
   useState,
 } from 'react';
 
-const DEFAULT_MESSAGE = '';
-const INVALID_UPDATE_COLUMN_TITLE = 'Column title must not be too long';
+const DEFAULT_CARD_MESSAGE = '';
 
 export const useBoardColumnData = () => {
   const { column } = useColumnContext();
 
   const [
-    message,
-    setMessage,
-  ] = useState(DEFAULT_MESSAGE);
+    cardMessage,
+    setCardMessage,
+  ] = useState(DEFAULT_CARD_MESSAGE);
 
   const dispatch = useAppDispatch();
 
+  const onDeleteColumn = useCallback(() => {
+    dispatch(deleteColumn({ columnId: column.id }));
+  }, [
+    column.id,
+    dispatch,
+  ]);
+
   const onAddCard = useCallback(() => {
     dispatch(addCard({
-      data: { message },
+      data: { message: cardMessage },
       meta: { columnId: column.id },
     }));
   }, [
     column.id,
     dispatch,
-    message,
+    cardMessage,
   ]);
 
   const onUpdateColumn = useCallback((title: string) => {
@@ -47,37 +54,47 @@ export const useBoardColumnData = () => {
   ]);
 
   const handleCardMessageChange = useCallback((value: string) => {
-    setMessage(value);
+    setCardMessage(value);
   }, []);
 
   const handleCardMessageSubmit = useCallback(() => {
-    onAddCard();
-    setMessage(DEFAULT_MESSAGE);
+    try {
+      assertIsValidInput(cardMessage);
+      onAddCard();
+      setCardMessage(DEFAULT_CARD_MESSAGE);
+    } catch (error) {
+      logError(error);
+    }
   }, [
+    cardMessage,
     onAddCard,
   ]);
 
   const [
-    title,
-    setTitle,
+    columnTitle,
+    setColumnTitle,
   ] = useState(column.title);
 
+  const resetColumnTitle = () => setColumnTitle(column.title);
+
   const handleColumnTitleBlur = () => {
-    onUpdateColumn(title);
+    try {
+      assertIsValidInput(columnTitle);
+      onUpdateColumn(columnTitle);
+    } catch (error) {
+      resetColumnTitle();
+      logError(error);
+    }
   };
 
   const handleColumnTitleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    if (!isValidInputOnUpdate(target.value)) {
-      logError(INVALID_UPDATE_COLUMN_TITLE);
-      return;
-    }
-
-    setTitle(target.value);
+    setColumnTitle(target.value);
   };
 
   return {
-    cardMessage: message,
-    columnTitle: title,
+    cardMessage,
+    columnTitle,
+    deleteColumn: onDeleteColumn,
     handleCardMessageChange,
     handleCardMessageSubmit,
     handleColumnTitleBlur,

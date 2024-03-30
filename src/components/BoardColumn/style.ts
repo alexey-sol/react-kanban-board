@@ -17,7 +17,12 @@ export const BoardColumnStyled = styled.li`
   }
 `;
 
+export const ColumnHeaderStyled = styled.h3`
+  display: flex;
+`;
+
 export const InputStyled = styled.input`
+  flex: 1;
   box-sizing: border-box;
   padding: 0.5rem;
   border-width: 0;

@@ -3,6 +3,8 @@ import { dragTypes } from '@/const';
 import { useColumnContext } from '@/contexts/ColumnContext';
 import { type Card } from '@/models';
 import { updateCard } from '@/slice';
+import { logError } from '@/utils/log';
+import { assertIsValidInput } from '@/utils/validators';
 import {
   useCallback,
   useState,
@@ -21,23 +23,37 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
     setMessage,
   ] = useState(card.message);
 
+  const resetMessage = useCallback(() => setMessage(card.message), [
+    card.message,
+  ]);
+
   const dispatch = useAppDispatch();
 
-  const onMessageChange = useCallback((value: string) => {
-    setMessage(value);
-
-    dispatch(updateCard({
-      data: { message: value },
-      meta: {
-        columnId: column.id,
-        id: card.id,
-      },
-    }));
+  const handleMessageBlur = useCallback(() => {
+    try {
+      assertIsValidInput(message);
+      dispatch(updateCard({
+        data: { message },
+        meta: {
+          columnId: column.id,
+          id: card.id,
+        },
+      }));
+    } catch (error) {
+      resetMessage();
+      logError(error);
+    }
   }, [
     card.id,
     column.id,
     dispatch,
+    message,
+    resetMessage,
   ]);
+
+  const handleMessageChange = useCallback((value: string) => {
+    setMessage(value);
+  }, []);
 
   const [
     { isDragging },
@@ -55,8 +71,9 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
   return {
     dragPreview,
     dragRef,
+    handleMessageBlur,
+    handleMessageChange,
     isDragging,
     message,
-    onMessageChange,
   };
 };

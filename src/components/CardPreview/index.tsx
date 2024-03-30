@@ -15,9 +15,10 @@ export const CardPreview: FC<UseCardPreviewDataProps> = memo((props) => {
   const {
     dragPreview,
     dragRef,
+    handleMessageBlur,
+    handleMessageChange,
     isDragging,
     message,
-    onMessageChange,
   } = useCardPreviewData(props);
 
   useEffect(() => {
@@ -27,7 +28,8 @@ export const CardPreview: FC<UseCardPreviewDataProps> = memo((props) => {
   return (
     <CardPreviewStyled $isHidden={isDragging} ref={dragRef}>
       <UpdateCardForm
-        onChange={onMessageChange}
+        onBlur={handleMessageBlur}
+        onChange={handleMessageChange}
         value={message}
       />
     </CardPreviewStyled>

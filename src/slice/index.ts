@@ -3,21 +3,19 @@ import { initialState } from './const';
 import {
   type AddCardPayload,
   type AddColumnPayload,
-  type BoardState,
+  type HasColumnId,
   type UpdateCardPayload,
   type UpdateColumnPayload,
 } from './types';
+import {
+  filterMapCardIdToColumnIdByColumnId,
+  initializeCardsIfNeeded,
+} from './utils';
 import { logError } from '@/utils/log';
 import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-
-const initializeCardsIfNeeded = (state: BoardState, columnId: string) => {
-  if (!state.mapColumnIdToCards[columnId]) {
-    state.mapColumnIdToCards[columnId] = [];
-  }
-};
 
 export const boardSlice = createSlice({
   initialState,
@@ -44,6 +42,12 @@ export const boardSlice = createSlice({
       const columnId = generateId();
       state.mapColumnIdToTitle[columnId] = payload.title;
       initializeCardsIfNeeded(state, columnId);
+    },
+    deleteColumn: (state, { payload }: PayloadAction<HasColumnId>) => {
+      const { columnId } = payload;
+      state.mapCardIdToColumnId = filterMapCardIdToColumnIdByColumnId(state.mapCardIdToColumnId, columnId);
+      delete state.mapColumnIdToCards[columnId]; // eslint-disable-line @typescript-eslint/no-dynamic-delete
+      delete state.mapColumnIdToTitle[columnId]; // eslint-disable-line @typescript-eslint/no-dynamic-delete
     },
     updateCard: (state, action: PayloadAction<UpdateCardPayload>) => {
       const {
@@ -87,6 +91,7 @@ export const boardSlice = createSlice({
 export const {
   addCard,
   addColumn,
+  deleteColumn,
   updateCard,
   updateColumn,
 } = boardSlice.actions;
