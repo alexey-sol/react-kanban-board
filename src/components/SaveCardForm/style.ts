@@ -13,5 +13,6 @@ export const TextAreaStyled = styled.textarea`
   background-color: transparent;
   font-size: 1rem;
   resize: none;
+  overflow-y: hidden;
   cursor: inherit;
 `;

@@ -1,3 +1,4 @@
+import { DroppableListItem } from '../DroppableListItem';
 import { styled } from 'styled-components';
 
 export const ColumnListStyled = styled.ul`
@@ -8,4 +9,13 @@ export const ColumnListStyled = styled.ul`
 
 export const StubTextStyled = styled.p`
   padding: 0.5rem;
+`;
+
+export const DroppableListItemStyled = styled(DroppableListItem)`
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  min-height:  ${({ theme }) => theme.components.board.listItem.minHeight};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;

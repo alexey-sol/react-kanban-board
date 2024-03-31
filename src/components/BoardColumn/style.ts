@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const BoardColumnStyled = styled.li`
+export const BoardColumnStyled = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;

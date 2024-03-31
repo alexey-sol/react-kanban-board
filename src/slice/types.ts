@@ -1,22 +1,20 @@
 import {
   type Card,
+  type Column,
   type HasId,
 } from '@/models';
 
 export type BoardState = {
+  columns: Column[],
   mapCardIdToColumnId: Record<string, string>,
   mapColumnIdToCards: Record<string, Card[]>,
-  mapColumnIdToTitle: Record<string, string>,
 };
 
 export type HasColumnId = {
   columnId: string,
 };
 
-export type AddCardPayload = {
-  data: Pick<Card, 'message'>,
-  meta: HasColumnId,
-};
+export type AddCardPayload = HasColumnId & Pick<Card, 'message'>
 
 export type AddColumnPayload = {
   title: string,
@@ -30,6 +28,8 @@ export type UpdateCardPayload = {
 };
 
 export type UpdateColumnPayload = {
-  id: string,
-  title: string,
+  data?: Partial<Pick<Column, 'title'>>,
+  meta: HasId & {
+    index?: number,
+  },
 };

@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/app/store/hooks';
+import { dragTypes } from '@/const';
 import { useColumnContext } from '@/contexts/ColumnContext';
 import {
   addCard,
@@ -10,8 +11,11 @@ import { assertIsValidInput } from '@/utils/validators';
 import {
   type ChangeEventHandler,
   useCallback,
+  useEffect,
   useState,
 } from 'react';
+import { useDrag } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 const DEFAULT_CARD_MESSAGE = '';
 
@@ -34,8 +38,8 @@ export const useBoardColumnData = () => {
 
   const onAddCard = useCallback(() => {
     dispatch(addCard({
-      data: { message: cardMessage },
-      meta: { columnId: column.id },
+      columnId: column.id,
+      message: cardMessage,
     }));
   }, [
     column.id,
@@ -45,8 +49,8 @@ export const useBoardColumnData = () => {
 
   const onUpdateColumn = useCallback((title: string) => {
     dispatch(updateColumn({
-      id: column.id,
-      title,
+      data: { title },
+      meta: { id: column.id },
     }));
   }, [
     column.id,
@@ -80,7 +84,10 @@ export const useBoardColumnData = () => {
   const handleColumnTitleBlur = () => {
     try {
       assertIsValidInput(columnTitle);
-      onUpdateColumn(columnTitle);
+
+      if (columnTitle.trim() !== column.title) {
+        onUpdateColumn(columnTitle);
+      }
     } catch (error) {
       resetColumnTitle();
       logError(error);
@@ -91,13 +98,32 @@ export const useBoardColumnData = () => {
     setColumnTitle(target.value);
   };
 
+  const [
+    { isDragging },
+    dragRef,
+    dragPreview,
+  ] = useDrag(
+    () => ({
+      collect: (monitor) => ({ isDragging: Boolean(monitor.isDragging()) }),
+      item: column,
+      type: dragTypes.COLUMN,
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    dragPreview(getEmptyImage());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return {
     cardMessage,
     columnTitle,
     deleteColumn: onDeleteColumn,
+    dragRef,
     handleCardMessageChange,
     handleCardMessageSubmit,
     handleColumnTitleBlur,
     handleColumnTitleChange,
+    isDragging,
   };
 };

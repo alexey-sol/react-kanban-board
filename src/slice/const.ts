@@ -1,14 +1,22 @@
-/* eslint-disable canonical/sort-keys */
 import { type BoardState } from './types';
 
-const mapColumnIdToTitle: BoardState['mapColumnIdToTitle'] = {
-  toDo: 'To Do',
-  inProgress: 'In Progress',
-  done: 'Done',
-};
+const columns: BoardState['columns'] = [
+  {
+    id: 'toDo',
+    title: 'To Do',
+  },
+  {
+    id: 'inProgress',
+    title: 'In Progress',
+  },
+  {
+    id: 'done',
+    title: 'Done',
+  },
+];
 
 export const initialState: BoardState = {
+  columns,
   mapCardIdToColumnId: {},
   mapColumnIdToCards: {},
-  mapColumnIdToTitle,
 };

@@ -15,19 +15,22 @@ import {
 
 const ADD_CARD_BUTTON_TITLE = '+ Add';
 
+// TODO style
 export const BoardColumn: FC = memo(() => {
   const {
     cardMessage,
     columnTitle,
     deleteColumn,
+    dragRef,
     handleCardMessageChange,
     handleCardMessageSubmit,
     handleColumnTitleBlur,
     handleColumnTitleChange,
+    isDragging,
   } = useBoardColumnData();
 
   return (
-    <BoardColumnStyled>
+    <BoardColumnStyled ref={dragRef} style={{ visibility: isDragging ? 'hidden' : 'inherit' }}>
       <ColumnHeaderStyled>
         <InputStyled
           maxLength={validation.INPUT_MAX_LENGTH}

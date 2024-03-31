@@ -23,31 +23,37 @@ export const boardSlice = createSlice({
   reducers: {
     addCard: (state, action: PayloadAction<AddCardPayload>) => {
       const {
-        data,
-        meta,
+        columnId,
+        message,
       } = action.payload;
+
       const id = generateId();
 
-      initializeCardsIfNeeded(state, meta.columnId);
+      initializeCardsIfNeeded(state, columnId);
 
-      state.mapColumnIdToCards[meta.columnId].push({
-        columnId: meta.columnId,
+      state.mapColumnIdToCards[columnId].push({
+        columnId,
         id,
-        message: data.message,
+        message,
       });
 
-      state.mapCardIdToColumnId[id] = meta.columnId;
+      state.mapCardIdToColumnId[id] = columnId;
     },
     addColumn: (state, { payload }: PayloadAction<AddColumnPayload>) => {
-      const columnId = generateId();
-      state.mapColumnIdToTitle[columnId] = payload.title;
-      initializeCardsIfNeeded(state, columnId);
+      const id = generateId();
+
+      state.columns.push({
+        id,
+        title: payload.title,
+      });
+
+      initializeCardsIfNeeded(state, id);
     },
     deleteColumn: (state, { payload }: PayloadAction<HasColumnId>) => {
       const { columnId } = payload;
       state.mapCardIdToColumnId = filterMapCardIdToColumnIdByColumnId(state.mapCardIdToColumnId, columnId);
       delete state.mapColumnIdToCards[columnId]; // eslint-disable-line @typescript-eslint/no-dynamic-delete
-      delete state.mapColumnIdToTitle[columnId]; // eslint-disable-line @typescript-eslint/no-dynamic-delete
+      state.columns = state.columns.filter(({ id }) => id !== columnId);
     },
     updateCard: (state, action: PayloadAction<UpdateCardPayload>) => {
       const {
@@ -55,10 +61,9 @@ export const boardSlice = createSlice({
         meta,
       } = action.payload;
 
-      const columnId = state.mapCardIdToColumnId[meta.id];
-      const currentIndex = state.mapColumnIdToCards[columnId].findIndex(({ id }) => id === meta.id);
-      const currentData = state.mapColumnIdToCards[columnId][currentIndex] ?? {};
-      const resultIndex = meta.index ?? currentIndex;
+      const currentColumnId = state.mapCardIdToColumnId[meta.id];
+      const currentIndex = state.mapColumnIdToCards[currentColumnId].findIndex(({ id }) => id === meta.id);
+      const currentData = state.mapColumnIdToCards[currentColumnId][currentIndex] ?? {};
 
       const updatedCard = {
         ...currentData,
@@ -66,24 +71,35 @@ export const boardSlice = createSlice({
       };
 
       initializeCardsIfNeeded(state, meta.columnId);
-      state.mapColumnIdToCards[columnId] = state.mapColumnIdToCards[columnId].filter(({ id }) => id !== meta.id);
+
+      const resultIndex = meta.index ?? currentIndex;
+      state.mapColumnIdToCards[currentColumnId] = state.mapColumnIdToCards[currentColumnId].filter(({ id }) => id !== meta.id);
       state.mapColumnIdToCards[meta.columnId].splice(resultIndex, 0, updatedCard);
       state.mapCardIdToColumnId[meta.id] = meta.columnId;
     },
     updateColumn: (state, action: PayloadAction<UpdateColumnPayload>) => {
       const {
-        id,
-        title,
+        data,
+        meta,
       } = action.payload;
 
-      const hasColumn = id in state.mapColumnIdToTitle;
+      const index = state.columns.findIndex(({ id }) => id === meta.id);
 
-      if (!hasColumn) {
-        logError(`No column with id = ${id} found in board slice when updateColumn`);
+      if (index === -1) {
+        logError(`No column with id = ${meta.id} found in board slice when updateColumn`);
         return;
       }
 
-      state.mapColumnIdToTitle[id] = title;
+      const currentData = state.columns[index];
+
+      const updatedColumn = {
+        ...currentData,
+        ...data,
+      };
+
+      const resultIndex = meta.index ?? index;
+      state.columns = state.columns.filter(({ id }) => id !== meta.id);
+      state.columns.splice(resultIndex, 0, updatedColumn);
     },
   },
 });
