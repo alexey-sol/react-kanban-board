@@ -1,3 +1,5 @@
+import { DragLayer } from '@/components/DragLayer';
+import { DroppableListItem } from '@/components/DroppableListItem';
 import { styled } from 'styled-components';
 
 export const BoardStyled = styled.ul`
@@ -22,4 +24,13 @@ export const InputStyled = styled.input`
   padding: 0.5rem;
   border-width: 0;
   font-size: 1rem;
+`;
+
+export const DragLayerStyled = styled(DragLayer)`
+  background-color: white;
+  opacity: ${({ theme }) => theme.components.dragLayer.opacity};
+`;
+
+export const DroppableListItemStyled = styled(DroppableListItem)`
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
 `;

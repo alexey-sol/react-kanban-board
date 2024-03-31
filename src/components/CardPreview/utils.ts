@@ -30,15 +30,18 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
   const dispatch = useAppDispatch();
 
   const handleMessageBlur = useCallback(() => {
+    const normalizedMessage = message.trim();
+
     try {
       assertIsValidInput(message);
       dispatch(updateCard({
-        data: { message },
+        data: { message: normalizedMessage },
         meta: {
           columnId: column.id,
           id: card.id,
         },
       }));
+      setMessage(normalizedMessage);
     } catch (error) {
       resetMessage();
       logError(error);

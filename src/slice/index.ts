@@ -63,6 +63,12 @@ export const boardSlice = createSlice({
 
       const currentColumnId = state.mapCardIdToColumnId[meta.id];
       const currentIndex = state.mapColumnIdToCards[currentColumnId].findIndex(({ id }) => id === meta.id);
+
+      if (currentIndex === -1) {
+        logError(`No card with id = ${meta.id} found in board slice when updateCard`);
+        return;
+      }
+
       const currentData = state.mapColumnIdToCards[currentColumnId][currentIndex] ?? {};
 
       const updatedCard = {
@@ -83,21 +89,21 @@ export const boardSlice = createSlice({
         meta,
       } = action.payload;
 
-      const index = state.columns.findIndex(({ id }) => id === meta.id);
+      const currentIndex = state.columns.findIndex(({ id }) => id === meta.id);
 
-      if (index === -1) {
+      if (currentIndex === -1) {
         logError(`No column with id = ${meta.id} found in board slice when updateColumn`);
         return;
       }
 
-      const currentData = state.columns[index];
+      const currentData = state.columns[currentIndex];
 
       const updatedColumn = {
         ...currentData,
         ...data,
       };
 
-      const resultIndex = meta.index ?? index;
+      const resultIndex = meta.index ?? currentIndex;
       state.columns = state.columns.filter(({ id }) => id !== meta.id);
       state.columns.splice(resultIndex, 0, updatedColumn);
     },

@@ -1,6 +1,8 @@
+import { hideableMixin } from '@/app/style/mixins';
+import { type HasIsHidden } from '@/app/style/types';
 import { styled } from 'styled-components';
 
-export const BoardColumnStyled = styled.section`
+export const BoardColumnStyled = styled.section<Partial<HasIsHidden>>`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -11,6 +13,7 @@ export const BoardColumnStyled = styled.section`
   padding: 1rem;
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
+  ${hideableMixin};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: initial;
@@ -28,4 +31,5 @@ export const InputStyled = styled.input`
   border-width: 0;
   background-color: transparent;
   font-size: 1.25rem;
+  cursor: pointer;
 `;

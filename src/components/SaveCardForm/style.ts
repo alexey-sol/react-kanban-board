@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 export const FormStyled = styled.form`
   display: flex;
   column-gap: 0.5rem;
+  flex: 1;
 `;
 
 export const TextAreaStyled = styled.textarea`

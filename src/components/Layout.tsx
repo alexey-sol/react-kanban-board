@@ -6,8 +6,10 @@ import { styled } from 'styled-components';
 
 const LayoutStyled = styled.main`
   box-sizing: border-box;
-  padding: 1rem;
+  min-width: 100vw;
+  width: fit-content;
   min-height: 100vh;
+  padding: 1rem;
   background-color: ${({ theme }) => theme.colors.blue};
 `;
 

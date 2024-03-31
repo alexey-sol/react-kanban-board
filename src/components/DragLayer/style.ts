@@ -5,19 +5,17 @@ import {
   styled,
 } from 'styled-components';
 
-type CardPreviewDragLayerStyledProps = {
+type DragLayerStyledProps = {
   $x: XYCoord['x'],
   $y: XYCoord['y'],
 };
 
-export const CardPreviewDragLayerStyled = styled(CardPreviewStyled)<CardPreviewDragLayerStyledProps>`
+export const DragLayerStyled = styled(CardPreviewStyled)<DragLayerStyledProps>`
   position: fixed;
   top: 0;
   left: 0;
   z-index: ${({ theme }) => theme.zIndex.modal};
   box-sizing: border-box;
-  width: calc(${({ theme }) => theme.components.board.column.width} - 2rem);
-  opacity: 0.4;
   pointer-events: none;
 
   ${({

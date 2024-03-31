@@ -18,8 +18,9 @@ export const theme = {
         minWidth: '300px',
         width: '500px',
       },
-      listItem: { minHeight: '3.5rem' },
+      listItem: { minHeight: '3rem' },
     },
+    dragLayer: { opacity: 0.3 },
   },
 
   durations: {

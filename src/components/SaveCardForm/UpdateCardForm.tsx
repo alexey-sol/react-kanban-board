@@ -30,10 +30,11 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
     if (textAreaRef.current) {
       autoGrowHeight(textAreaRef.current);
     }
-  }, []);
+  }, [
+    value,
+  ]);
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = ({ target }) => {
-    autoGrowHeight(target);
     onChange(target.value);
   };
 

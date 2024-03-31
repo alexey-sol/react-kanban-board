@@ -3,36 +3,41 @@ import {
   DroppableContextProvider,
   useDroppableContext,
 } from '@/contexts/DroppableContext';
+import { type HasClassName } from '@/models';
 import {
   type FC,
   type PropsWithChildren,
 } from 'react';
 
-const DroppableLayer: FC<PropsWithChildren> = ({ children }) => {
+const DroppableLayer: FC<PropsWithChildren<Readonly<Partial<HasClassName>>>> = ({
+  children,
+  className,
+}) => {
   const {
     dropRef,
     isOver,
   } = useDroppableContext();
 
   return (
-    <DroppableLayerStyled $isOver={isOver} ref={dropRef}>
+    <DroppableLayerStyled $isOver={isOver} className={className} ref={dropRef}>
       {children}
     </DroppableLayerStyled>
   );
 };
 
-export type DroppableListItemProps = {
+export type DroppableListItemProps = Readonly<Partial<HasClassName>> & {
   readonly dragType: string,
   readonly handleDrop: (item: unknown) => void,
 };
 
 export const DroppableListItem: FC<PropsWithChildren<DroppableListItemProps>> = ({
   children,
+  className,
   dragType,
   handleDrop,
 }) => (
   <DroppableContextProvider dragType={dragType} onDrop={handleDrop}>
-    <DroppableLayer>
+    <DroppableLayer className={className}>
       {children}
     </DroppableLayer>
   </DroppableContextProvider>

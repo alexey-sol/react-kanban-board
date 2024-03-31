@@ -29,6 +29,7 @@ module.exports = {
       'error',
       'always',
     ],
+    'react/forbid-component-props': 'off',
     'react/jsx-wrap-multilines': [
       'error',
       { prop: 'parens-new-line' },

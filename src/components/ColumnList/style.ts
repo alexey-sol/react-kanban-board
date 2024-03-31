@@ -1,4 +1,5 @@
 import { DroppableListItem } from '../DroppableListItem';
+import { DragLayer } from '@/components/DragLayer';
 import { styled } from 'styled-components';
 
 export const ColumnListStyled = styled.ul`
@@ -16,6 +17,11 @@ export const DroppableListItemStyled = styled(DroppableListItem)`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  min-height:  ${({ theme }) => theme.components.board.listItem.minHeight};
+  min-height: ${({ theme }) => theme.components.board.listItem.minHeight};
   border-radius: ${({ theme }) => theme.borderRadius.md};
+`;
+
+export const DragLayerStyled = styled(DragLayer)`
+  width: calc(${({ theme }) => theme.components.board.column.width} - 2rem);
+  opacity: ${({ theme }) => theme.components.dragLayer.opacity};
 `;

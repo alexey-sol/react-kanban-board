@@ -1,13 +1,15 @@
 import { type DroppableListItemProps } from '../DroppableListItem';
 import {
+  DragLayerStyled,
   DroppableListItemStyled,
   StubTextStyled,
 } from './style';
 import { useColumnListData } from './utils';
 import { CardPreview } from '@/components/CardPreview';
-import { CardPreviewDragLayer } from '@/components/CardPreviewDragLayer';
+import { useDragLayerData } from '@/components/DragLayer/utils';
 import { dragTypes } from '@/const';
-import { type Card } from '@/models';
+import {type Card, HasIndex} from '@/models';
+import { isCard } from '@/utils/helpers/guards';
 import {
   type FC,
   memo,
@@ -16,22 +18,26 @@ import {
 const DRAG_TYPE = dragTypes.CARD;
 const STUB_TEXT = 'Nothing so far';
 
-type CardItemProps = {
+type CardItemProps = Readonly<HasIndex> & {
   readonly card: Card,
-  readonly index: number,
 };
 
 export const CardItem: FC<CardItemProps> = memo(({
   card,
   index,
 }) => {
+  const { item: dragItem } = useDragLayerData();
   const { handleDrop } = useColumnListData();
   const onDrop: DroppableListItemProps['handleDrop'] = (item) => handleDrop(item, index);
 
   return (
     <DroppableListItemStyled dragType={DRAG_TYPE} handleDrop={onDrop}>
       <CardPreview card={card} />
-      <CardPreviewDragLayer />
+      {isCard(dragItem) && (
+        <DragLayerStyled>
+          <p>{dragItem.message}</p>
+        </DragLayerStyled>
+      )}
     </DroppableListItemStyled>
   );
 });

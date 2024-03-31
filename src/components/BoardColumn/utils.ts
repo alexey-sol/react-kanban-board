@@ -39,7 +39,7 @@ export const useBoardColumnData = () => {
   const onAddCard = useCallback(() => {
     dispatch(addCard({
       columnId: column.id,
-      message: cardMessage,
+      message: cardMessage.trim(),
     }));
   }, [
     column.id,
