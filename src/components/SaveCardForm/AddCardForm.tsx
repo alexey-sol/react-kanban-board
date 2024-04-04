@@ -1,13 +1,14 @@
 import * as cn from './const';
 import {
-  FormStyled,
+  AddCardFormStyled,
+  AddCardIconButtonStyled,
   TextAreaStyled,
 } from './style';
 import {
   autoGrowHeight,
   resetHeight,
 } from './utils';
-import { Button } from '@/components/Button';
+import PlusIcon from '@/assets/plus.svg?react';
 import { validation } from '@/const';
 import {
   type ChangeEventHandler,
@@ -21,14 +22,12 @@ import {
 type AddCardFormProps = {
   readonly onChange: (value: string) => void,
   readonly onSubmit: () => void,
-  readonly submitButtonTitle?: string,
   readonly value?: string,
 };
 
 export const AddCardForm: FC<AddCardFormProps> = memo(({
   onChange,
   onSubmit,
-  submitButtonTitle = cn.DEFAULT_SUBMIT_BUTTON_TITLE,
   value = '',
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -69,7 +68,7 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
   };
 
   return (
-    <FormStyled onSubmit={handleSubmit}>
+    <AddCardFormStyled onSubmit={handleSubmit}>
       <TextAreaStyled
         maxLength={validation.INPUT_MAX_LENGTH}
         onChange={handleChange}
@@ -80,9 +79,9 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
         title={cn.TEXTAREA_HINT}
         value={value}
       />
-      <Button type='submit'>
-        {submitButtonTitle}
-      </Button>
-    </FormStyled>
+      <AddCardIconButtonStyled type='submit'>
+        <PlusIcon />
+      </AddCardIconButtonStyled>
+    </AddCardFormStyled>
   );
 });

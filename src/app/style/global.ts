@@ -15,6 +15,8 @@ const resetStyle = css`
     font-family: ${FONT_FAMILY};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: ${({ theme }) => theme.colors.purpleDark};
+    fill: ${({ theme }) => theme.colors.purpleDark};
   }
 
   h1, h2, h3, p, ul {

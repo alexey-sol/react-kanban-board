@@ -11,6 +11,7 @@ import {
   filterMapCardIdToColumnIdByColumnId,
   initializeCardsIfNeeded,
 } from './utils';
+import { type HasId } from '@/models.ts';
 import { logError } from '@/utils/log';
 import {
   createSlice,
@@ -48,6 +49,18 @@ export const boardSlice = createSlice({
       });
 
       initializeCardsIfNeeded(state, id);
+    },
+    deleteCard: (state, { payload }: PayloadAction<HasId>) => {
+      const { id } = payload;
+      const columnId = state.mapCardIdToColumnId[id];
+
+      if (!columnId) {
+        logError(`No column with id = ${columnId} found in board slice when deleteCard`);
+        return;
+      }
+
+      delete state.mapCardIdToColumnId[id]; // eslint-disable-line @typescript-eslint/no-dynamic-delete
+      state.mapColumnIdToCards[columnId] = state.mapColumnIdToCards[columnId].filter((card) => card.id !== id);
     },
     deleteColumn: (state, { payload }: PayloadAction<HasColumnId>) => {
       const { columnId } = payload;
@@ -113,6 +126,7 @@ export const boardSlice = createSlice({
 export const {
   addCard,
   addColumn,
+  deleteCard,
   deleteColumn,
   updateCard,
   updateColumn,

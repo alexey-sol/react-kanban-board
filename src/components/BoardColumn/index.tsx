@@ -3,17 +3,18 @@ import { AddCardForm } from '../SaveCardForm';
 import {
   BoardColumnStyled,
   ColumnHeaderStyled,
+  DragIconButtonStyled,
+  IconButtonStyled,
   InputStyled,
 } from './style';
 import { useBoardColumnData } from './utils';
-import { Button } from '@/components/Button';
+import DragIcon from '@/assets/drag.svg?react';
+import MinusIcon from '@/assets/minus.svg?react';
 import { validation } from '@/const';
 import {
   type FC,
   memo,
 } from 'react';
-
-const ADD_CARD_BUTTON_TITLE = '+ Add';
 
 export const BoardColumn: FC = memo(() => {
   const {
@@ -31,22 +32,23 @@ export const BoardColumn: FC = memo(() => {
   return (
     <BoardColumnStyled $isHidden={isDragging}>
       <ColumnHeaderStyled>
+        <DragIconButtonStyled ref={dragRef}>
+          <DragIcon />
+        </DragIconButtonStyled>
         <InputStyled
           maxLength={validation.INPUT_MAX_LENGTH}
           onBlur={handleColumnTitleBlur}
           onChange={handleColumnTitleChange}
-          ref={dragRef}
           value={columnTitle}
         />
-        <Button onClick={deleteColumn}>
-          Delete
-        </Button>
+        <IconButtonStyled onClick={deleteColumn}>
+          <MinusIcon />
+        </IconButtonStyled>
       </ColumnHeaderStyled>
       <ColumnList />
       <AddCardForm
         onChange={handleCardMessageChange}
         onSubmit={handleCardMessageSubmit}
-        submitButtonTitle={ADD_CARD_BUTTON_TITLE}
         value={cardMessage}
       />
     </BoardColumnStyled>

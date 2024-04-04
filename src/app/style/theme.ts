@@ -10,10 +10,19 @@ export const theme = {
     sm: '576px',
   },
 
-  colors: { blue: '#afc1d6' },
+  colors: {
+    grey: '#C4CAD0',
+    greyLightest: '#FCFCFC',
+    orange: '#F87060',
+    primary: '#7871AA',
+    purpleDark: '#242331',
+    secondary: '#F4D58D',
+    white: '#ffffff',
+  },
 
   components: {
     board: {
+      card: { paddingX: '0.5rem' },
       column: {
         minWidth: '300px',
         width: '500px',

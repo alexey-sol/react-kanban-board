@@ -10,7 +10,7 @@ const LayoutStyled = styled.main`
   width: fit-content;
   min-height: 100vh;
   padding: 1rem;
-  background-color: ${({ theme }) => theme.colors.blue};
+  background-color: ${({theme}) => theme.colors.primary};
 `;
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => (

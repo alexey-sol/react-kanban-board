@@ -28,6 +28,7 @@ export const CardPreview: FC<UseCardPreviewDataProps> = memo((props) => {
   return (
     <CardPreviewStyled $isHidden={isDragging} ref={dragRef}>
       <UpdateCardForm
+        id={props.card.id}
         onBlur={handleMessageBlur}
         onChange={handleMessageChange}
         value={message}

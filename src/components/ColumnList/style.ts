@@ -9,7 +9,7 @@ export const ColumnListStyled = styled.ul`
 `;
 
 export const StubTextStyled = styled.p`
-  padding: 0.5rem;
+  padding:  ${({theme}) => theme.components.board.card.paddingX};
 `;
 
 export const DroppableListItemStyled = styled(DroppableListItem)`
