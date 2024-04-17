@@ -1,12 +1,12 @@
 import * as cn from './const';
 import {
   DeleteCardIconButtonStyled,
-  FormStyled,
   TextAreaStyled,
 } from './style';
 import { autoGrowHeight } from './utils';
 import { useAppDispatch } from '@/app/store/hooks';
 import MinusIcon from '@/assets/minus.svg?react';
+import { Form } from '@/components/forms';
 import { validation } from '@/const';
 import { type HasId } from '@/models';
 import { deleteCard } from '@/slice';
@@ -14,6 +14,7 @@ import {
   type ChangeEventHandler,
   type FC,
   memo,
+  type MouseEventHandler,
   useCallback,
   useEffect,
   useRef,
@@ -47,7 +48,7 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
 
   const dispatch = useAppDispatch();
 
-  const onDeleteCard = useCallback((event) => {
+  const onDeleteCard: MouseEventHandler = useCallback((event) => {
     event.preventDefault();
     dispatch(deleteCard({ id }));
   }, [
@@ -56,7 +57,7 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
   ]);
 
   return (
-    <FormStyled>
+    <Form>
       <TextAreaStyled
         maxLength={validation.INPUT_MAX_LENGTH}
         onBlur={onBlur}
@@ -69,6 +70,6 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
       <DeleteCardIconButtonStyled onClick={onDeleteCard}>
         <MinusIcon />
       </DeleteCardIconButtonStyled>
-    </FormStyled>
+    </Form>
   );
 });

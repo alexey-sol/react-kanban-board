@@ -1,14 +1,14 @@
 import {
   type DragLayerMonitor,
-  useDragLayer,
+  useDragLayer as useLibraryDragLayer,
 } from 'react-dnd';
 
-export const useDragLayerData = () => {
+export const useDragLayer = () => {
   const {
     currentOffset,
     isDragging,
     item,
-  } = useDragLayer(
+  } = useLibraryDragLayer(
     (monitor: DragLayerMonitor) => ({
       currentOffset: monitor.getSourceClientOffset(),
       isDragging: monitor.isDragging(),

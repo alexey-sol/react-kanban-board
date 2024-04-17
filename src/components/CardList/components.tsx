@@ -4,11 +4,14 @@ import {
   DroppableListItemStyled,
   StubTextStyled,
 } from './style';
-import { useColumnListData } from './utils';
+import { useCardList } from './utils';
 import { CardPreview } from '@/components/CardPreview';
-import { useDragLayerData } from '@/components/DragLayer/utils';
+import { useDragLayer } from '@/components/DragLayer/utils';
 import { dragTypes } from '@/const';
-import {type Card, HasIndex} from '@/models';
+import {
+  type Card,
+  type HasIndex,
+} from '@/models';
 import { isCard } from '@/utils/helpers/guards';
 import {
   type FC,
@@ -26,8 +29,8 @@ export const CardItem: FC<CardItemProps> = memo(({
   card,
   index,
 }) => {
-  const { item: dragItem } = useDragLayerData();
-  const { handleDrop } = useColumnListData();
+  const { item: dragItem } = useDragLayer();
+  const { handleDrop } = useCardList();
   const onDrop: DroppableListItemProps['handleDrop'] = (item) => handleDrop(item, index);
 
   return (
@@ -43,7 +46,7 @@ export const CardItem: FC<CardItemProps> = memo(({
 });
 
 export const StubItem: FC = memo(() => {
-  const { handleDrop } = useColumnListData();
+  const { handleDrop } = useCardList();
   const onDrop: DroppableListItemProps['handleDrop'] = (item) => handleDrop(item);
 
   return (

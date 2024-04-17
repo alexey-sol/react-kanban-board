@@ -1,6 +1,5 @@
 import * as cn from './const';
 import {
-  AddCardFormStyled,
   AddCardIconButtonStyled,
   TextAreaStyled,
 } from './style';
@@ -9,6 +8,7 @@ import {
   resetHeight,
 } from './utils';
 import PlusIcon from '@/assets/plus.svg?react';
+import { Form } from '@/components/forms';
 import { validation } from '@/const';
 import {
   type ChangeEventHandler,
@@ -68,7 +68,7 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
   };
 
   return (
-    <AddCardFormStyled onSubmit={handleSubmit}>
+    <Form $variant='outlined' onSubmit={handleSubmit}>
       <TextAreaStyled
         maxLength={validation.INPUT_MAX_LENGTH}
         onChange={handleChange}
@@ -82,6 +82,6 @@ export const AddCardForm: FC<AddCardFormProps> = memo(({
       <AddCardIconButtonStyled type='submit'>
         <PlusIcon />
       </AddCardIconButtonStyled>
-    </AddCardFormStyled>
+    </Form>
   );
 });

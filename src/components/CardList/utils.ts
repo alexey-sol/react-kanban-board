@@ -8,7 +8,7 @@ import { selectAllCardsByColumnId } from '@/slice/selectors';
 import { isCard } from '@/utils/helpers/guards';
 import { useCallback } from 'react';
 
-export const useColumnListData = () => {
+export const useCardList = () => {
   const { column } = useColumnContext();
   const cards = useAppSelector((state) => selectAllCardsByColumnId(state, column.id));
 

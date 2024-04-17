@@ -2,14 +2,14 @@ import { DroppableListItem } from '../DroppableListItem';
 import { DragLayer } from '@/components/DragLayer';
 import { styled } from 'styled-components';
 
-export const ColumnListStyled = styled.ul`
+export const CardListStyled = styled.ul`
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
 `;
 
 export const StubTextStyled = styled.p`
-  padding:  ${({theme}) => theme.components.board.card.paddingX};
+  padding:  ${({ theme }) => theme.components.board.card.paddingX};
 `;
 
 export const DroppableListItemStyled = styled(DroppableListItem)`

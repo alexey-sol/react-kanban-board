@@ -7,15 +7,17 @@ import { logError } from '@/utils/log';
 import { assertIsValidInput } from '@/utils/validators';
 import {
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 import { useDrag } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
-export type UseCardPreviewDataProps = {
+export type UseCardPreviewProps = {
   readonly card: Card,
 };
 
-export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
+export const useCardPreview = ({ card }: UseCardPreviewProps) => {
   const { column } = useColumnContext();
 
   const [
@@ -71,8 +73,11 @@ export const useCardPreviewData = ({ card }: UseCardPreviewDataProps) => {
     [],
   );
 
+  useEffect(() => {
+    dragPreview(getEmptyImage());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return {
-    dragPreview,
     dragRef,
     handleMessageBlur,
     handleMessageChange,

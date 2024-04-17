@@ -1,5 +1,3 @@
-import { DragLayer } from '@/components/DragLayer';
-import { DroppableListItem } from '@/components/DroppableListItem';
 import { styled } from 'styled-components';
 
 export const BoardStyled = styled.ul`
@@ -11,26 +9,4 @@ export const BoardStyled = styled.ul`
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     flex-direction: column;
   }
-`;
-
-export const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-`;
-
-export const InputStyled = styled.input`
-  box-sizing: border-box;
-  padding: 0.5rem;
-  border-width: 0;
-  font-size: 1rem;
-`;
-
-export const DragLayerStyled = styled(DragLayer)`
-  background-color: white;
-  opacity: ${({ theme }) => theme.components.dragLayer.opacity};
-`;
-
-export const DroppableListItemStyled = styled(DroppableListItem)`
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
 `;

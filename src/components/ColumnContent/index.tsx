@@ -1,36 +1,35 @@
-import { ColumnList } from '../ColumnList';
+import { CardList } from '../CardList';
 import { AddCardForm } from '../SaveCardForm';
 import {
-  BoardColumnStyled,
   ColumnHeaderStyled,
   DragIconButtonStyled,
   IconButtonStyled,
   InputStyled,
 } from './style';
-import { useBoardColumnData } from './utils';
+import { useColumnContent } from './utils';
 import DragIcon from '@/assets/drag.svg?react';
 import MinusIcon from '@/assets/minus.svg?react';
 import { validation } from '@/const';
-import {
-  type FC,
-  memo,
-} from 'react';
+import { type FC } from 'react';
+import { type ConnectDragSource } from 'react-dnd';
 
-export const BoardColumn: FC = memo(() => {
+type ColumnContentProps = {
+  readonly dragRef: ConnectDragSource,
+};
+
+export const ColumnContent: FC<ColumnContentProps> = ({ dragRef }) => {
   const {
     cardMessage,
     columnTitle,
     deleteColumn,
-    dragRef,
     handleCardMessageChange,
     handleCardMessageSubmit,
     handleColumnTitleBlur,
     handleColumnTitleChange,
-    isDragging,
-  } = useBoardColumnData();
+  } = useColumnContent();
 
   return (
-    <BoardColumnStyled $isHidden={isDragging}>
+    <>
       <ColumnHeaderStyled>
         <DragIconButtonStyled ref={dragRef}>
           <DragIcon />
@@ -45,12 +44,12 @@ export const BoardColumn: FC = memo(() => {
           <MinusIcon />
         </IconButtonStyled>
       </ColumnHeaderStyled>
-      <ColumnList />
+      <CardList />
       <AddCardForm
         onChange={handleCardMessageChange}
         onSubmit={handleCardMessageSubmit}
         value={cardMessage}
       />
-    </BoardColumnStyled>
+    </>
   );
-});
+};

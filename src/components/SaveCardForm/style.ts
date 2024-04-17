@@ -1,19 +1,6 @@
 import { IconButton } from '@/components/Button';
 import { styled } from 'styled-components';
 
-export const FormStyled = styled.form`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  column-gap: 0.5rem;
-  flex: 1;
-`;
-
-export const AddCardFormStyled = styled(FormStyled)`
-  border: 1px solid ${({ theme }) => theme.colors.grey};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-`;
-
 export const TextAreaStyled = styled.textarea`
   flex: 1;
   box-sizing: border-box;

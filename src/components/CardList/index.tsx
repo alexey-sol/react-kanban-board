@@ -1,17 +1,17 @@
-import { ColumnListStyled } from './style';
-import { useColumnListData } from './utils';
+import { CardListStyled } from './style';
+import { useCardList } from './utils';
 import {
   CardItem,
   StubItem,
-} from '@/components/ColumnList/components';
+} from '@/components/CardList/components';
 import {
   type FC,
   memo,
   useCallback,
 } from 'react';
 
-export const ColumnList: FC = memo(() => {
-  const { cards } = useColumnListData();
+export const CardList: FC = memo(() => {
+  const { cards } = useCardList();
   const hasCards = cards.length > 0;
 
   const renderCards = useCallback(() => cards.map((card, index) => (
@@ -29,8 +29,8 @@ export const ColumnList: FC = memo(() => {
   ), []);
 
   return (
-    <ColumnListStyled>
+    <CardListStyled>
       {hasCards ? renderCards() : renderStub()}
-    </ColumnListStyled>
+    </CardListStyled>
   );
 });
