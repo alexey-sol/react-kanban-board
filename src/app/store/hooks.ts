@@ -1,7 +1,7 @@
 import {
   type AppDispatch,
   type RootState,
-} from './index.ts';
+} from '.';
 import {
   type TypedUseSelectorHook,
   useDispatch,

@@ -3,8 +3,8 @@ import {
   useAppSelector,
 } from '@/app/store/hooks';
 import { useColumnContext } from '@/contexts/ColumnContext';
-import { updateCard } from '@/slice';
-import { selectAllCardsByColumnId } from '@/slice/selectors';
+import { updateCard } from '@/slices/board';
+import { selectAllCardsByColumnId } from '@/slices/board/selectors';
 import { isCard } from '@/utils/helpers/guards';
 import { useCallback } from 'react';
 

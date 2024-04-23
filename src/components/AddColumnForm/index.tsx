@@ -5,7 +5,9 @@ import {
 import { useAppDispatch } from '@/app/store/hooks';
 import PlusIcon from '@/assets/plus.svg?react';
 import { Form } from '@/components/forms';
-import { addColumn } from '@/slice';
+import { addColumn } from '@/slices/board';
+import { setSnackbar } from '@/slices/feedback';
+import { createFailureSnackbarProps } from '@/slices/feedback/utils';
 import { logError } from '@/utils/log';
 import { assertIsValidInput } from '@/utils/validators';
 import {
@@ -37,6 +39,10 @@ export const AddColumnForm: FC = () => {
       resetTitle();
     } catch (error) {
       logError(error);
+
+      if (error instanceof Error) {
+        dispatch(setSnackbar(createFailureSnackbarProps(error.message)));
+      }
     }
   };
 

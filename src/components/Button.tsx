@@ -1,4 +1,7 @@
-import { styled } from 'styled-components';
+import {
+  css,
+  styled,
+} from 'styled-components';
 
 export const Button = styled.button`
   box-sizing: border-box;
@@ -10,10 +13,16 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const IconButton = styled(Button)`
+const activeIconFill = css`
+  fill: ${({ theme }) => theme.colors.orange};
+`;
+
+export const IconButton = styled(Button)<{ $isActive?: boolean, }>`
   transition: fill ${({ theme }) => theme.durations.normal} ease;
-  
+
+  ${({ $isActive = false }) => $isActive && activeIconFill};
+
   &:hover {
-    fill: ${({ theme }) => theme.colors.orange};
+    ${activeIconFill};
   }
 `;

@@ -1,4 +1,5 @@
-import { boardReducer } from '@/slice';
+import { boardReducer } from '@/slices/board';
+import { feedbackReducer } from '@/slices/feedback';
 import {
   combineReducers,
   configureStore,
@@ -7,7 +8,10 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-export const rootReducer = combineReducers({ board: boardReducer });
+export const rootReducer = combineReducers({
+  board: boardReducer,
+  feedback: feedbackReducer,
+});
 
 export const store = configureStore({
   devTools: isDevelopment,

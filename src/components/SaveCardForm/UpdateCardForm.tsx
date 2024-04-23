@@ -9,7 +9,10 @@ import MinusIcon from '@/assets/minus.svg?react';
 import { Form } from '@/components/forms';
 import { validation } from '@/const';
 import { type HasId } from '@/models';
-import { deleteCard } from '@/slice';
+import { deleteCard } from '@/slices/board';
+import { setSnackbar } from '@/slices/feedback';
+import { createWarningSnackbarProps } from '@/slices/feedback/utils';
+import { useTransientToggle } from '@/utils/hooks/useTransientToggle';
 import {
   type ChangeEventHandler,
   type FC,
@@ -46,14 +49,27 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
     onChange(target.value);
   };
 
+  const {
+    isOn: isDeleteCardModeOn,
+    setIsOn: setIsDeleteCardModeOn,
+  } = useTransientToggle();
+
   const dispatch = useAppDispatch();
 
   const onDeleteCard: MouseEventHandler = useCallback((event) => {
     event.preventDefault();
-    dispatch(deleteCard({ id }));
+
+    if (isDeleteCardModeOn) {
+      dispatch(deleteCard({ id }));
+    } else {
+      setIsDeleteCardModeOn(true);
+      dispatch(setSnackbar(createWarningSnackbarProps(cn.DELETE_CARD_WARNING_MESSAGE)));
+    }
   }, [
     dispatch,
     id,
+    isDeleteCardModeOn,
+    setIsDeleteCardModeOn,
   ]);
 
   return (
@@ -67,7 +83,7 @@ export const UpdateCardForm: FC<UpdateCardFormProps> = memo(({
         rows={1}
         value={value}
       />
-      <DeleteCardIconButtonStyled onClick={onDeleteCard}>
+      <DeleteCardIconButtonStyled $isActive={isDeleteCardModeOn} onClick={onDeleteCard}>
         <MinusIcon />
       </DeleteCardIconButtonStyled>
     </Form>

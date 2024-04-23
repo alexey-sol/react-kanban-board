@@ -26,6 +26,7 @@ export const ColumnContent: FC<ColumnContentProps> = ({ dragRef }) => {
     handleCardMessageSubmit,
     handleColumnTitleBlur,
     handleColumnTitleChange,
+    isDeleteColumnModeOn,
   } = useColumnContent();
 
   return (
@@ -40,7 +41,7 @@ export const ColumnContent: FC<ColumnContentProps> = ({ dragRef }) => {
           onChange={handleColumnTitleChange}
           value={columnTitle}
         />
-        <IconButtonStyled onClick={deleteColumn}>
+        <IconButtonStyled $isActive={isDeleteColumnModeOn} onClick={deleteColumn}>
           <MinusIcon />
         </IconButtonStyled>
       </ColumnHeaderStyled>

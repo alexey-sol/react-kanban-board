@@ -1,4 +1,4 @@
-import { type BoardState } from '@/slice/types';
+import { type Column } from '@/models';
 import { getUseContextOrThrowError } from '@/utils/helpers/context';
 import {
   createContext,
@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 type HasColumn = {
-  readonly column: BoardState['mapColumnIdToTitle'],
+  readonly column: Column,
 };
 
 export const ColumnContext = createContext<HasColumn | null>(null);

@@ -4,7 +4,13 @@ import {
   addCard,
   deleteColumn,
   updateColumn,
-} from '@/slice';
+} from '@/slices/board';
+import { setSnackbar } from '@/slices/feedback';
+import {
+  createFailureSnackbarProps,
+  createWarningSnackbarProps,
+} from '@/slices/feedback/utils';
+import { useTransientToggle } from '@/utils/hooks/useTransientToggle';
 import { logError } from '@/utils/log';
 import { assertIsValidInput } from '@/utils/validators';
 import {
@@ -13,6 +19,7 @@ import {
   useState,
 } from 'react';
 
+const DELETE_COLUMN_WARNING_MESSAGE = 'Click again to delete the column';
 const DEFAULT_CARD_MESSAGE = '';
 
 export const useColumnContent = () => {
@@ -23,13 +30,25 @@ export const useColumnContent = () => {
     setCardMessage,
   ] = useState(DEFAULT_CARD_MESSAGE);
 
+  const {
+    isOn: isDeleteColumnModeOn,
+    setIsOn: setIsDeleteColumnModeOn,
+  } = useTransientToggle();
+
   const dispatch = useAppDispatch();
 
   const onDeleteColumn = useCallback(() => {
-    dispatch(deleteColumn({ columnId: column.id }));
+    if (isDeleteColumnModeOn) {
+      dispatch(deleteColumn({ columnId: column.id }));
+    } else {
+      setIsDeleteColumnModeOn(true);
+      dispatch(setSnackbar(createWarningSnackbarProps(DELETE_COLUMN_WARNING_MESSAGE)));
+    }
   }, [
     column.id,
     dispatch,
+    isDeleteColumnModeOn,
+    setIsDeleteColumnModeOn,
   ]);
 
   const onAddCard = useCallback(() => {
@@ -64,9 +83,14 @@ export const useColumnContent = () => {
       setCardMessage(DEFAULT_CARD_MESSAGE);
     } catch (error) {
       logError(error);
+
+      if (error instanceof Error) {
+        dispatch(setSnackbar(createFailureSnackbarProps(error.message)));
+      }
     }
   }, [
     cardMessage,
+    dispatch,
     onAddCard,
   ]);
 
@@ -102,5 +126,6 @@ export const useColumnContent = () => {
     handleCardMessageSubmit,
     handleColumnTitleBlur,
     handleColumnTitleChange,
+    isDeleteColumnModeOn,
   };
 };

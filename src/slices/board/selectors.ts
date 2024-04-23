@@ -1,6 +1,6 @@
 import { type RootState } from '@/app/store';
 import { type Card } from '@/models';
-import { type BoardState } from '@/slice/types';
+import { type BoardState } from '@/slices/board/types';
 
 const DEFAULT_CARDS: Card[] = [];
 

@@ -11,11 +11,14 @@ export const theme = {
   },
 
   colors: {
+    greenLighten: '#CEF9DA',
     grey: '#C4CAD0',
     greyLightest: '#FCFCFC',
     orange: '#F87060',
+    orangeLighten: '#FFE6C3',
     primary: '#7871AA',
     purpleDark: '#242331',
+    redLighten: '#FEC8C8',
     secondary: '#F4D58D',
     white: '#ffffff',
   },

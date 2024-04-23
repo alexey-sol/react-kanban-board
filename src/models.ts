@@ -1,4 +1,4 @@
-import { type HasColumnId } from '@/slice/types';
+import { type HasColumnId } from '@/slices/board/types';
 
 export type HasClassName = {
   className: string,

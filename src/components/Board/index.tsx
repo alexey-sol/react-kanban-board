@@ -6,7 +6,7 @@ import {
   BoardColumnAdd,
 } from '@/components/BoardColumn';
 import { ColumnContextProvider } from '@/contexts/ColumnContext';
-import { selectAllColumns } from '@/slice/selectors';
+import { selectAllColumns } from '@/slices/board/selectors';
 import { type FC } from 'react';
 
 export const Board: FC = () => {

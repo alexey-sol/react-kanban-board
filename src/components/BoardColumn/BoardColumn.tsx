@@ -8,7 +8,7 @@ import { useAppDispatch } from '@/app/store/hooks';
 import { ColumnContent } from '@/components/ColumnContent';
 import { dragTypes } from '@/const';
 import { type HasIndex } from '@/models';
-import { updateColumn } from '@/slice';
+import { updateColumn } from '@/slices/board';
 import { isColumn } from '@/utils/helpers/guards';
 import {
   type FC,

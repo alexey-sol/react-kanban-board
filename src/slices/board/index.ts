@@ -1,4 +1,3 @@
-import { generateId } from '../utils/helpers/generators';
 import { initialState } from './const';
 import {
   type AddCardPayload,
@@ -11,7 +10,8 @@ import {
   filterMapCardIdToColumnIdByColumnId,
   initializeCardsIfNeeded,
 } from './utils';
-import { type HasId } from '@/models.ts';
+import { type HasId } from '@/models';
+import { generateId } from '@/utils/helpers/generators';
 import { logError } from '@/utils/log';
 import {
   createSlice,
