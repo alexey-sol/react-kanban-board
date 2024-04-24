@@ -47,7 +47,6 @@ export const BoardColumn: FC<BoardColumnProps> = ({
   ]);
 
   return (
-
     <DroppableListItemStyled
       dragType={dragTypes.COLUMN}
       handleDrop={handleDrop}

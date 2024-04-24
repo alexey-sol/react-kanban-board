@@ -111,6 +111,10 @@ export const useColumnContent = () => {
     } catch (error) {
       resetColumnTitle();
       logError(error);
+
+      if (error instanceof Error) {
+        dispatch(setSnackbar(createFailureSnackbarProps(error.message)));
+      }
     }
   };
 

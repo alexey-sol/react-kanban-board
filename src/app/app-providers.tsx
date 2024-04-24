@@ -1,4 +1,7 @@
-import { store } from './store';
+import {
+  persistor,
+  store,
+} from './store';
 import { GlobalStyle } from '@/app/style/global';
 import { theme } from '@/app/style/theme';
 import { compose } from '@reduxjs/toolkit';
@@ -9,13 +12,16 @@ import {
 } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
 type WithProvider = (component: FC<void>) => FC<void>;
 
 export const withStore: WithProvider = (component) => () => (
   <Provider store={store}>
-    {component()}
+    <PersistGate loading={null} persistor={persistor}>
+      {component()}
+    </PersistGate>
   </Provider>
 );
 
