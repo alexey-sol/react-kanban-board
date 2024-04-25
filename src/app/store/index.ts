@@ -1,3 +1,4 @@
+import { ignoredActions } from './middleware';
 import { persistedReducer } from './reducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
@@ -7,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 export const store = configureStore({
   devTools: isDevelopment,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: { ignoredActions } }),
   reducer: persistedReducer,
 } as const);
 
