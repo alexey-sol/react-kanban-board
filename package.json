@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint test/react-simple-tasktracker --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "demo:up": "docker compose up --build --detach",
+    "demo:down": "docker compose down",
+    "demo:restart": "docker compose restart",
+    "lint": "eslint test/react-simple-tasktracker --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.2.1",

@@ -1,0 +1,9 @@
+services:
+    react-kanban-board:
+        build:
+            dockerfile: builder/Dockerfile.demo
+        ports:
+            - 15500:4173
+        command: npm run preview -- --host 0.0.0.0
+        restart: always
+        tty: true
